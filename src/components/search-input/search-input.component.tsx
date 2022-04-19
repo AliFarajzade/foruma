@@ -2,11 +2,12 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 
-const SearchInput = () => {
+const SearchInput: React.FC = () => {
     return (
         <Flex align="center" flexGrow={1} mr="2">
             <InputGroup>
                 <InputLeftElement
+                    transform={{ translateX: '-2px' }}
                     pointerEvents="none"
                     children={<SearchIcon color="gray.400" />}
                 />
