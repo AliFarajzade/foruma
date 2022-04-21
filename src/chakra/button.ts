@@ -32,11 +32,13 @@ const Button: ComponentStyleConfig = {
             borderColor: 'blue.500',
         },
         oauth: {
+            py: '5',
             height: '34px',
             border: '1px solid',
-            borderColor: 'gray.300',
+            borderColor: 'gray.400',
             _hover: {
                 bg: 'gray.50',
+                borderColor: 'gray.300',
             },
         },
     },

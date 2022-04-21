@@ -4,7 +4,7 @@ import { Flex, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 
 const SearchInput: React.FC = () => {
     return (
-        <Flex align="center" flexGrow={1} mr="2">
+        <Flex align="center" flexGrow={1} mr={{ base: '0', sm: '2' }}>
             <InputGroup>
                 <InputLeftElement
                     transform={{ translateX: '-2px' }}

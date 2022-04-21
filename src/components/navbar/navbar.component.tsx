@@ -6,7 +6,11 @@ const Navbar: React.FC = () => {
     return (
         <Flex bg="white" height="44px" padding="6px 12px">
             <Flex align="center">
-                <Img src="/images/redditFace.svg" height="30px" />
+                <Img
+                    src="/images/redditFace.svg"
+                    height="30px"
+                    mr={{ base: '3', md: 'unset' }}
+                />
                 <Img
                     src="/images/redditText.svg"
                     height="46px"
