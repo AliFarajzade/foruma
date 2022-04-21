@@ -2,6 +2,9 @@ import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import authModalState from '../../recoil/atoms/auth-modal.atom'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { auth } from '../../firebase/config.firebase'
+import { firebaseErrors } from '../../firebase/error.firebase'
 
 const SignUp: React.FC = () => {
     const [formValues, setFormValues] = useState<{
@@ -13,7 +16,12 @@ const SignUp: React.FC = () => {
         password: '',
         confirmPassword: '',
     })
+    const [error, setError] = useState<string>('')
+
     const setModalState = useSetRecoilState(authModalState)
+
+    const [createUserWithEmailAndPassword, user, loading, signUpError] =
+        useCreateUserWithEmailAndPassword(auth)
 
     const handleChange = (eventParam: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = eventParam.target
@@ -24,8 +32,24 @@ const SignUp: React.FC = () => {
         }))
     }
 
+    const handleSubmit = (evetParam: React.FormEvent<HTMLFormElement>) => {
+        evetParam.preventDefault()
+        setError('')
+        if (formValues.password !== formValues.confirmPassword) {
+            setError("Passwords don't match.")
+            return
+        } else if (formValues.password.length < 8) {
+            setError('Password must be at least 8 characters long.')
+            return
+        }
+
+        createUserWithEmailAndPassword(formValues.email, formValues.password)
+        console.log('User:', user)
+        console.log('signUpError:', signUpError)
+    }
+
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <Input
                 name="email"
                 placeholder="Email"
@@ -90,7 +114,19 @@ const SignUp: React.FC = () => {
                 }}
                 bg="gray.50"
             />
-            <Button width="90%" my="5px" type="submit">
+            {error ||
+                (signUpError && (
+                    <Text
+                        color="red"
+                        textAlign="center"
+                        py="2"
+                        fontWeight="400"
+                        fontSize="10pt"
+                    >
+                        {error || firebaseErrors[signUpError.message]}
+                    </Text>
+                ))}
+            <Button width="100%" my="5px" type="submit" isLoading={loading}>
                 Sign Up
             </Button>
             <Flex mt="3" fontSize="10pt" justify="center">
@@ -109,7 +145,7 @@ const SignUp: React.FC = () => {
                     Log In
                 </Text>
             </Flex>
-        </>
+        </form>
     )
 }
 
