@@ -2,15 +2,20 @@ import { Button, Flex, Img, Text } from '@chakra-ui/react'
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase/config.firebase'
 import toast from 'react-hot-toast'
+import { useEffect } from 'react'
 
 const OAuthButtons = () => {
     const [signInWithGoogle, user, loading, oAuthError] =
         useSignInWithGoogle(auth)
 
     const handleGoogleOAuth = () => {
-        signInWithGoogle().then(() => toast.success('Log in was successful.'))
+        signInWithGoogle()
     }
-    console.log(user)
+
+    useEffect(() => {
+        if (!loading && !oAuthError && user) toast.success('You got registerd!')
+    }, [loading, user, oAuthError])
+
     return (
         <Flex mb="6" direction="column" justify="center" align="center">
             <Button

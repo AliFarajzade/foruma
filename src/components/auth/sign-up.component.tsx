@@ -1,5 +1,5 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
@@ -44,11 +44,13 @@ const SignUp: React.FC = () => {
             return
         }
 
-        createUserWithEmailAndPassword(
-            formValues.email,
-            formValues.password
-        ).then(() => toast.success('You are now registerd!'))
+        createUserWithEmailAndPassword(formValues.email, formValues.password)
     }
+
+    useEffect(() => {
+        if (!loading && !error && !signUpError && user)
+            toast.success('You got registerd!')
+    }, [loading, user, signUpError, error])
 
     return (
         <form onSubmit={handleSubmit}>
