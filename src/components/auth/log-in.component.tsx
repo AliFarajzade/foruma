@@ -1,7 +1,11 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { useSetRecoilState } from 'recoil'
+import { auth } from '../../firebase/config.firebase'
 import authModalState from '../../recoil/atoms/auth-modal.atom'
+import { firebaseErrors } from '../../firebase/error.firebase'
+import toast from 'react-hot-toast'
 
 const LogIn: React.FC = () => {
     const [formValues, setFormValues] = useState<{
@@ -11,6 +15,9 @@ const LogIn: React.FC = () => {
         email: '',
         password: '',
     })
+
+    const [signInWithEmailAndPassword, user, loading, logInError] =
+        useSignInWithEmailAndPassword(auth)
 
     const setModalState = useSetRecoilState(authModalState)
 
@@ -23,8 +30,18 @@ const LogIn: React.FC = () => {
         }))
     }
 
+    const handleSubmit = (eventParam: React.FormEvent<HTMLFormElement>) => {
+        eventParam.preventDefault()
+        signInWithEmailAndPassword(formValues.email, formValues.password)
+    }
+
+    useEffect(() => {
+        if (!loading && !logInError && user)
+            toast.success('You are now logged in.')
+    }, [loading, logInError, user])
+
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <Input
                 name="email"
                 placeholder="Email"
@@ -69,9 +86,37 @@ const LogIn: React.FC = () => {
                 bg="gray.50"
             />
 
-            <Button width="90%" my="5px" type="submit">
+            {logInError && (
+                <Text
+                    color="red"
+                    textAlign="center"
+                    py="2"
+                    fontWeight="400"
+                    fontSize="10pt"
+                >
+                    {firebaseErrors[logInError.message]}
+                </Text>
+            )}
+
+            <Button width="100%" isLoading={loading} my="5px" type="submit">
                 Log In
             </Button>
+            <Flex mt="3" fontSize="10pt" justify="center">
+                <Text mr="1">Forgot your password?</Text>
+                <Text
+                    onClick={() =>
+                        setModalState(prevState => ({
+                            ...prevState,
+                            view: 'resetPassword',
+                        }))
+                    }
+                    fontWeight="700"
+                    cursor="pointer"
+                    color="blue.500"
+                >
+                    Reset password
+                </Text>
+            </Flex>
             <Flex mt="3" fontSize="10pt" justify="center">
                 <Text mr="1">New here?</Text>
                 <Text
@@ -88,7 +133,7 @@ const LogIn: React.FC = () => {
                     Sign up
                 </Text>
             </Flex>
-        </>
+        </form>
     )
 }
 

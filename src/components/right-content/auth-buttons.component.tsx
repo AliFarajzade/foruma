@@ -11,7 +11,7 @@ const AuthButtons: React.FC = () => {
                 variant="outline"
                 height="28px"
                 display={{ base: 'none', sm: 'inline-block' }}
-                width={{ base: '70px', md: '110px' }}
+                width={{ base: '75px', md: '110px' }}
                 mr="2"
                 onClick={() => setModalState({ open: true, view: 'logIn' })}
             >
@@ -20,7 +20,7 @@ const AuthButtons: React.FC = () => {
             <Button
                 height="28px"
                 display={{ base: 'none', sm: 'inline-block' }}
-                width={{ base: '70px', md: '110px' }}
+                width={{ base: 'fit-content', md: '110px' }}
                 onClick={() => setModalState({ open: true, view: 'signUp' })}
             >
                 Sign Up
