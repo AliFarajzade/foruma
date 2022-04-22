@@ -3,6 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../chakra/theme'
 import Layout from '../components/layout/layout.component'
 import { RecoilRoot } from 'recoil'
+import { Toaster } from 'react-hot-toast'
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ChakraProvider theme={theme}>
                 <Layout>
                     <Component {...pageProps} />
+                    <Toaster />
                 </Layout>
             </ChakraProvider>
         </RecoilRoot>

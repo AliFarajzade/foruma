@@ -1,10 +1,11 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
+import { useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
 import { firebaseErrors } from '../../firebase/error.firebase'
+import authModalState from '../../recoil/atoms/auth-modal.atom'
 
 const SignUp: React.FC = () => {
     const [formValues, setFormValues] = useState<{
@@ -43,9 +44,10 @@ const SignUp: React.FC = () => {
             return
         }
 
-        createUserWithEmailAndPassword(formValues.email, formValues.password)
-        console.log('User:', user)
-        console.log('signUpError:', signUpError)
+        createUserWithEmailAndPassword(
+            formValues.email,
+            formValues.password
+        ).then(() => toast.success('You are now registerd!'))
     }
 
     return (

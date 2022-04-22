@@ -1,7 +1,7 @@
 import Navbar from '../navbar/navbar.component'
 
 type IProps = {
-    children: React.ReactChild
+    children: React.ReactChild[]
 }
 
 const Layout: React.FC<IProps> = ({ children }) => (
