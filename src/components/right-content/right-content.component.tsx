@@ -2,6 +2,7 @@ import { Flex, Button } from '@chakra-ui/react'
 import { signOut, User } from 'firebase/auth'
 import { auth } from '../../firebase/config.firebase'
 import AuthModal from '../modal/auth/auth-modal.component'
+import NavbarIcons from '../navbar/navbar-icons.component'
 import AuthButtons from './auth-buttons.component'
 
 type IProps = {
@@ -13,18 +14,7 @@ const RightContent: React.FC<IProps> = ({ user }) => {
         <>
             <AuthModal />
             <Flex justify="center" align="center">
-                {user ? (
-                    <Button
-                        onClick={() => signOut(auth)}
-                        height="28px"
-                        display={{ base: 'none', sm: 'inline-block' }}
-                        width={{ base: 'fit-content', md: '110px' }}
-                    >
-                        Sign Out
-                    </Button>
-                ) : (
-                    <AuthButtons />
-                )}
+                {user ? <NavbarIcons /> : <AuthButtons />}
             </Flex>
         </>
     )
