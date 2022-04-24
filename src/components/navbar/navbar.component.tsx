@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { auth } from '../../firebase/config.firebase'
+import Directory from '../directory/directory.component'
 import RightContent from '../right-content/right-content.component'
 import SearchInput from '../search-input/search-input.component'
 
@@ -14,21 +15,31 @@ const Navbar: React.FC = () => {
     }, [error])
 
     return (
-        <Flex bg="white" height="44px" padding="6px 12px">
-            <Flex align="center">
+        <Flex
+            bg="white"
+            height="44px"
+            padding="6px 12px"
+            justify="space-between"
+        >
+            <Flex
+                align="center"
+                width={{ base: '40px', sm: '40px', md: 'auto' }}
+                mr={{ base: 1 }}
+            >
                 <Img
+                    display="block"
                     src="/images/redditFace.svg"
                     height="30px"
-                    mr={{ base: '3', md: 'unset' }}
+                    minWidth={{ base: '30px' }}
                 />
                 <Img
                     src="/images/redditText.svg"
                     height="46px"
-                    mr={2}
                     display={{ base: 'none', md: 'unset' }}
                 />
             </Flex>
-            <SearchInput />
+            {user && <Directory />}
+            <SearchInput user={user} />
             {loading ? <Spinner ml="3" /> : <RightContent user={user} />}
         </Flex>
     )

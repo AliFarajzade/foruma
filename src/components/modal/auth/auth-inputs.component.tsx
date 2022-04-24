@@ -4,7 +4,7 @@ import authModalState from '../../../recoil/atoms/auth-modal.atom'
 import LogIn from '../../auth/log-in.component'
 import SignUp from '../../auth/sign-up.component'
 
-const AuthInputs = () => {
+const AuthInputs: React.FC = () => {
     const modalState = useRecoilValue(authModalState)
     return (
         <Flex my="6" direction="column" align="center" width="100%">
