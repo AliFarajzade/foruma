@@ -24,11 +24,12 @@ const Navbar: React.FC = () => {
                 <Img
                     src="/images/redditText.svg"
                     height="46px"
+                    mr={2}
                     display={{ base: 'none', md: 'unset' }}
                 />
             </Flex>
             <SearchInput />
-            {loading ? <Spinner /> : <RightContent user={user} />}
+            {loading ? <Spinner ml="3" /> : <RightContent user={user} />}
         </Flex>
     )
 }
