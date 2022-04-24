@@ -3,9 +3,9 @@ import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { auth } from '../../firebase/config.firebase'
-import Directory from '../directory/directory.component'
 import RightContent from '../right-content/right-content.component'
 import SearchInput from '../search-input/search-input.component'
+import Directory from './directory.component'
 
 const Navbar: React.FC = () => {
     const [user, loading, error] = useAuthState(auth)
