@@ -21,7 +21,13 @@ import {
 } from '@chakra-ui/react'
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import debounce from 'lodash.debounce'
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useState,
+} from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs'
@@ -70,26 +76,22 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
         }
     }
 
-    const checkForExistence = useMemo(
-        () =>
-            debounce(async () => {
-                const communityRef = doc(
-                    firestore,
-                    'communities',
-                    communityName
-                )
-                const communitySnap = await getDoc(communityRef)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const checkForExistence = useCallback(
+        debounce(async () => {
+            const communityRef = doc(firestore, 'communities', communityName)
+            const communitySnap = await getDoc(communityRef)
 
-                const existence = communitySnap.exists()
+            const existence = communitySnap.exists()
 
-                if (existence) {
-                    setAlreadyExists(true)
-                    setError('This name is taken.')
-                } else {
-                    setAlreadyExists(false)
-                }
-                setIsLoading(false)
-            }, 750),
+            if (existence) {
+                setAlreadyExists(true)
+                setError('This name is taken.')
+            } else {
+                setAlreadyExists(false)
+            }
+            setIsLoading(false)
+        }, 1000),
         [communityName]
     )
 
@@ -113,8 +115,9 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
 
             setIsOpen(false)
             toast.success('Community created 🚀️')
-        } catch (error) {
+        } catch (error: any) {
             toast.error('Something went wrong.')
+            setError(error.message)
         }
         setIsSubmitting(false)
     }
@@ -264,8 +267,8 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
                                 fontSize="13"
                                 color="gray.500"
                             >
-                                Anybody can view this community but only
-                                approved users can post.
+                                Anybody can view this community but only certain
+                                users can post.
                             </Text>
                             <Radio
                                 spacing="2"
