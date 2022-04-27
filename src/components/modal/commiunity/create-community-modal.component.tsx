@@ -17,7 +17,7 @@ import {
     Radio,
     RadioGroup,
     Spinner,
-    Text,
+    Text
 } from '@chakra-ui/react'
 import { doc, getDoc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import debounce from 'lodash.debounce'
@@ -26,7 +26,7 @@ import {
     SetStateAction,
     useCallback,
     useEffect,
-    useState,
+    useState
 } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
