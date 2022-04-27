@@ -19,7 +19,7 @@ import {
     Spinner,
     Text,
 } from '@chakra-ui/react'
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { doc, getDoc, serverTimestamp, writeBatch } from 'firebase/firestore'
 import debounce from 'lodash.debounce'
 import {
     Dispatch,
@@ -103,16 +103,28 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
     }, [communityName])
 
     const handleCreateCommunity = async () => {
-        try {
-            const communityRef = doc(firestore, 'communities', communityName)
-            setIsSubmitting(true)
-            await setDoc(communityRef, {
-                creatorID: user?.uid,
-                createdAt: serverTimestamp(),
-                numberOfMembers: 1,
-                privacyType: communityType,
-            })
+        const batch = writeBatch(firestore)
+        const communityRef = doc(firestore, 'communities', communityName)
+        const userCommunityRef = doc(
+            firestore,
+            `users/${user!.uid}/communitySnippets`,
+            communityName
+        )
+        batch.set(communityRef, {
+            creatorID: user?.uid,
+            createdAt: serverTimestamp(),
+            numberOfMembers: 1,
+            privacyType: communityType,
+        })
 
+        batch.set(userCommunityRef, {
+            communityID: communityName,
+            isModerator: true,
+        })
+
+        try {
+            setIsSubmitting(true)
+            await batch.commit()
             setIsOpen(false)
             toast.success('Community created 🚀️')
         } catch (error: any) {
