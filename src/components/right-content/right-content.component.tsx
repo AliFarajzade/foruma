@@ -15,7 +15,6 @@ const RightContent: React.FC<IProps> = ({ user }) => {
             <AuthModal />
             <Flex justify="center" align="center">
                 {user ? <NavbarIcons /> : <AuthButtons />}
-                {/* {user && <NavbarDropDown />} */}
                 <NavbarDropDown user={user} />
             </Flex>
         </>
