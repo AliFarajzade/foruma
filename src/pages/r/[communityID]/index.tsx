@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore'
 import { GetServerSidePropsContext, NextPage } from 'next'
 import safeJsonStringify from 'safe-json-stringify'
+import CommunityNotFound from '../../../components/not-found/no-community.component'
 import { firestore } from '../../../firebase/config.firebase'
 import { TCommunity } from '../../../types/community.types'
 
@@ -46,7 +47,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
     return communityData ? (
         <h1>{JSON.stringify(communityData)}</h1>
     ) : (
-        <h1>Not found</h1>
+        <CommunityNotFound />
     )
 }
 
