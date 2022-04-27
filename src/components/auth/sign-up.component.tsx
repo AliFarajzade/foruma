@@ -1,9 +1,11 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
+import { User } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
-import { auth } from '../../firebase/config.firebase'
+import { auth, firestore } from '../../firebase/config.firebase'
 import { firebaseErrors } from '../../firebase/error.firebase'
 import authModalState from '../../recoil/atoms/auth-modal.atom'
 
@@ -21,7 +23,7 @@ const SignUp: React.FC = () => {
 
     const setModalState = useSetRecoilState(authModalState)
 
-    const [createUserWithEmailAndPassword, user, loading, signUpError] =
+    const [createUserWithEmailAndPassword, userCred, loading, signUpError] =
         useCreateUserWithEmailAndPassword(auth)
 
     const handleChange = (eventParam: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,9 @@ const SignUp: React.FC = () => {
         }))
     }
 
-    const handleSubmit = (evetParam: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (
+        evetParam: React.FormEvent<HTMLFormElement>
+    ) => {
         evetParam.preventDefault()
         setError('')
         if (formValues.password !== formValues.confirmPassword) {
@@ -44,13 +48,31 @@ const SignUp: React.FC = () => {
             return
         }
 
-        createUserWithEmailAndPassword(formValues.email, formValues.password)
+        await createUserWithEmailAndPassword(
+            formValues.email,
+            formValues.password
+        )
+        toast.success('You got registerd!')
+    }
+
+    const addUserToFirestore = async (user: User) => {
+        try {
+            await setDoc(doc(firestore, 'users', user.uid), {
+                displayName: user.displayName,
+                email: user.email,
+                providerData: user.providerData,
+                uid: user.uid,
+            })
+        } catch (error: any) {
+            setError(error.message)
+            console.log(error)
+        }
     }
 
     useEffect(() => {
-        if (!loading && !error && !signUpError && user)
-            toast.success('You got registerd!')
-    }, [loading, user, signUpError, error])
+        if (!loading && !error && !signUpError && userCred)
+            addUserToFirestore(userCred.user)
+    }, [loading, userCred, signUpError, error])
 
     return (
         <form onSubmit={handleSubmit}>
