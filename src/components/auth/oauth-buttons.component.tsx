@@ -1,21 +1,41 @@
 import { Button, Flex, Img, Text } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { User } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
-import { auth } from '../../firebase/config.firebase'
+import { auth, firestore } from '../../firebase/config.firebase'
 import { firebaseErrors } from '../../firebase/error.firebase'
 
 const OAuthButtons: React.FC = () => {
-    const [signInWithGoogle, user, loading, oAuthError] =
+    const [signInWithGoogle, userCred, loading, oAuthError] =
         useSignInWithGoogle(auth)
+    const [, setError] = useState<string>('')
 
-    const handleGoogleOAuth = () => {
-        signInWithGoogle()
+    const handleGoogleOAuth = async () => {
+        await signInWithGoogle()
+        toast.success('You got registerd!')
+    }
+
+    const addUserToFirestore = async (user: User) => {
+        try {
+            await setDoc(doc(firestore, 'users', user.uid), {
+                displayName: user.displayName,
+                email: user.email,
+                providerData: user.providerData,
+                uid: user.uid,
+            })
+        } catch (error: any) {
+            setError(error.message)
+            toast.error('Something went wrong.')
+            console.log(error)
+        }
     }
 
     useEffect(() => {
-        if (!loading && !oAuthError && user) toast.success('You got registerd!')
-    }, [loading, user, oAuthError])
+        if (!loading && !oAuthError && userCred)
+            addUserToFirestore(userCred.user)
+    }, [loading, userCred, oAuthError])
 
     return (
         <Flex mb="6" direction="column" justify="center" align="center">
