@@ -8,7 +8,6 @@ interface IProps {
 
 const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
     const isJoined = true // Atom selector
-    console.log(communityData)
     return (
         <Flex direction="column" width="100%" height="146px">
             <Box height="50%" bg="blue.400" />
