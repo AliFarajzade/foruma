@@ -1,4 +1,5 @@
 import { Flex, Img, Spinner } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
@@ -10,6 +11,8 @@ import Directory from './directory.component'
 const Navbar: React.FC = () => {
     const [user, loading, error] = useAuthState(auth)
 
+    const router = useRouter()
+
     useEffect(() => {
         error && toast.error('Failed to authenticate.')
     }, [error])
@@ -20,8 +23,10 @@ const Navbar: React.FC = () => {
             height="44px"
             padding="6px 12px"
             justify="space-between"
+            cursor="pointer"
         >
             <Flex
+                onClick={() => router.push('/', '/', { scroll: true })}
                 align="center"
                 width={{ base: '40px', sm: '40px', md: 'auto' }}
                 mr={{ base: 1 }}
