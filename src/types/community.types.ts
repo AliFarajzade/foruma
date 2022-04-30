@@ -14,3 +14,9 @@ export type TCommunity = {
     privacyType: string
     imageURL?: string
 }
+
+export type TCommunitySnippet = {
+    communityID: string
+    isModerator?: boolean
+    imageURL?: string
+}
