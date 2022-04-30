@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 
-export interface IAuthModalState {
+interface IAuthModalState {
     open: boolean
     view: 'logIn' | 'resetPassword' | 'signUp'
 }
