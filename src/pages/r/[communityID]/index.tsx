@@ -2,6 +2,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { GetServerSidePropsContext, NextPage } from 'next'
 import safeJsonStringify from 'safe-json-stringify'
 import CommunityHeader from '../../../components/community/community-header.component'
+import CreatePostLink from '../../../components/community/create-post-link.component'
 import CommunityPageLayout from '../../../components/layout/community-layout.component'
 import CommunityNotFound from '../../../components/not-found/no-community.component'
 import { firestore } from '../../../firebase/config.firebase'
@@ -51,7 +52,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             <CommunityHeader communityData={communityData} />
             <CommunityPageLayout>
                 <>
-                    <div>LHS</div>
+                    <CreatePostLink />
                 </>
                 <>
                     <div>RHS</div>
