@@ -15,16 +15,25 @@ import { FaRedditSquare } from 'react-icons/fa'
 import { IoSparkles } from 'react-icons/io5'
 import { MdOutlineLogin } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
-import { useSetRecoilState } from 'recoil'
+import { useResetRecoilState, useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
 import authModalState from '../../recoil/atoms/auth-modal.atom'
+import communitySnippetState from '../../recoil/atoms/community.atom'
 
 type IProps = {
     user: User | undefined | null
 }
 
 const NavbarDropDown: React.FC<IProps> = ({ user }) => {
+    const resetCommunitySnippetState = useResetRecoilState(
+        communitySnippetState
+    )
     const setModalState = useSetRecoilState(authModalState)
+
+    const logOut = async () => {
+        await signOut(auth)
+        resetCommunitySnippetState()
+    }
 
     return (
         <Menu>
@@ -94,7 +103,7 @@ const NavbarDropDown: React.FC<IProps> = ({ user }) => {
                         </MenuItem>
                         <MenuDivider />
                         <MenuItem
-                            onClick={() => signOut(auth)}
+                            onClick={() => logOut()}
                             fontSize="10pt"
                             fontWeight="700"
                             _hover={{ bg: 'blue.400', color: 'white' }}
