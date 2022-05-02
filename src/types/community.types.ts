@@ -2,7 +2,6 @@ import { Timestamp } from 'firebase/firestore'
 
 export type TCommunity = {
     id: string
-    name: string
     createdAt:
         | Timestamp
         | {
