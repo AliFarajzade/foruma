@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Icon, Img, Text } from '@chakra-ui/react'
 import { FaReddit } from 'react-icons/fa'
+import useCommunityData from '../../hooks/use-community-data.hook'
 import { TCommunity } from '../../types/community.types'
 
 interface IProps {
@@ -7,7 +8,12 @@ interface IProps {
 }
 
 const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
-    const isJoined = true // Atom selector
+    console.log(communityData)
+    const { communityMembershipToggle, communityState, isLoading } =
+        useCommunityData()
+    const isJoined = !!communityState.mySnippets.find(
+        ({ communityID }) => communityID === communityData.id
+    )
     return (
         <Flex direction="column" width="100%" height="146px">
             <Box height="50%" bg="blue.400" />
@@ -40,10 +46,17 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                             </Text>
                         </Flex>
                         <Button
+                            isLoading={isLoading}
                             variant={isJoined ? 'outline' : 'solid'}
                             height="30px"
                             px="6"
                             cursor={isJoined ? 'default' : 'pointer'}
+                            onClick={() =>
+                                communityMembershipToggle(
+                                    communityData,
+                                    isJoined
+                                )
+                            }
                         >
                             {isJoined ? 'Joined' : 'Join'}
                         </Button>
