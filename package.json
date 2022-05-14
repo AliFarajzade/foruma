@@ -25,7 +25,8 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
     "recoil": "^0.7.2",
-    "safe-json-stringify": "^1.2.0"
+    "safe-json-stringify": "^1.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.7",
@@ -34,6 +35,7 @@
     "@types/react": "18.0.5",
     "@types/react-dom": "18.0.1",
     "@types/safe-json-stringify": "^1.1.2",
+    "@types/uuid": "^8.3.4",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "typescript": "4.6.3"
