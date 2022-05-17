@@ -1,9 +1,22 @@
 import { Flex } from '@chakra-ui/react'
+import {
+    addDoc,
+    collection,
+    doc,
+    serverTimestamp,
+    setDoc,
+} from 'firebase/firestore'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
 import { BiPoll } from 'react-icons/bi'
 import { BsMic } from 'react-icons/bs'
 import { IoDocumentText, IoImagesOutline } from 'react-icons/io5'
 import { v4 as uuidv4 } from 'uuid'
+import { auth, firestore } from '../../firebase/config.firebase'
+import useUploadFile from '../../hooks/use-upload-file.hook'
+import { TPost } from '../../types/post.types'
 import MediaSelect from './media-select.component'
 import TabItem from './tab-item.component'
 import TextInputs from './text-inputs.component'
@@ -33,9 +46,17 @@ const NewPostForm: React.FC = () => {
         title: string
         description: string
     }>({ title: '', description: '' })
-    const [media, setMedia] = useState<string>('')
+    const [mediaString, setMediaString] = useState<string>('')
+    const [mediaFile, setMediaFile] = useState<File | null>(null)
     const [overSizeMediaError, setOverSizeMediaError] = useState<boolean>(false)
     const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const { query } = useRouter()
+
+    const [{ isUploading, progress }, uploadFile] = useUploadFile()
+
+    const [user] = useAuthState(auth)
 
     const handleChangeTab = (tabTitle: string) => setSelectedTab(tabTitle)
 
@@ -61,6 +82,7 @@ const NewPostForm: React.FC = () => {
         setMediaType(
             event.target.files[0].type.startsWith('video') ? 'video' : 'image'
         )
+        setMediaFile(event.target.files[0])
 
         const reader = new FileReader()
 
@@ -68,16 +90,55 @@ const NewPostForm: React.FC = () => {
 
         reader.onload = readerEvent => {
             if (!readerEvent.target?.result) return
-            setMedia(readerEvent.target?.result as string)
+            setMediaString(readerEvent.target?.result as string)
         }
     }
 
     const handleRemoveMedia = () => {
-        setMedia('')
+        setMediaString('')
         setMediaType(null)
     }
 
-    const handleSubmitPost = async () => {}
+    const handleSubmitPost = async () => {
+        if (!user) return
+
+        setIsLoading(true)
+
+        const newPost: Omit<TPost, 'ID'> = {
+            communityID: query.communityID as string,
+            createdAt: serverTimestamp(),
+            creatorID: user.uid,
+            creatorDisplayName: user.displayName ?? user.email!.split('@')[0],
+            description: formData.description,
+            title: formData.title,
+            numberOfComments: 0,
+            voteStatus: 0,
+        }
+
+        const postRef = collection(firestore, `posts`)
+
+        try {
+            const postDocRef = await addDoc(postRef, newPost)
+
+            if (mediaFile && !overSizeMediaError) {
+                const mediaURL = await uploadFile(
+                    mediaFile,
+                    `posts/${query.communityID}/${mediaFile.name.substring(
+                        0,
+                        10
+                    )}-${new Date().toISOString()}`
+                )
+                const postRef = doc(firestore, 'posts', postDocRef.id)
+                await setDoc(postRef, { mediaURL, mediaType }, { merge: true })
+            }
+
+            toast.success('Posted!')
+        } catch (error) {
+            console.log(error)
+        }
+
+        setIsLoading(false)
+    }
 
     return (
         <Flex direction="column" bg="white" borderRadius={4} mt={2}>
@@ -91,24 +152,29 @@ const NewPostForm: React.FC = () => {
                     />
                 ))}
             </Flex>
+
             <Flex padding="20px" paddingBottom="10px">
                 {selectedTab === 'Post' && (
                     <TextInputs
                         formData={formData}
                         handleFormChange={handleFormChange}
                         handleSubmitPost={handleSubmitPost}
+                        isLoading={isLoading}
+                        isUploading={isUploading}
+                        progress={progress}
                     />
                 )}
 
                 {selectedTab === 'Images & Video' && (
                     <MediaSelect
                         handleSelectMedia={handleSelectMedia}
-                        media={media}
+                        mediaString={mediaString}
                         overSizeMediaError={overSizeMediaError}
                         handleRemoveMedia={handleRemoveMedia}
                         mediaType={mediaType}
                     />
                 )}
+                <Flex py={4}></Flex>
             </Flex>
         </Flex>
     )
