@@ -12,13 +12,13 @@ import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useRecoilState } from 'recoil'
 import { auth } from '../../../firebase/config.firebase'
-import authModalState from '../../../recoil/atoms/auth-modal.atom'
+import authModalStateAtom from '../../../recoil/atoms/auth-modal.atom'
 import OAuthButtons from '../../auth/oauth-buttons.component'
 import ResetPassword from '../../auth/reset-password.component'
 import AuthInputs from './auth-inputs.component'
 
 const AuthModal: React.FC = () => {
-    const [modalState, setModalState] = useRecoilState(authModalState)
+    const [modalState, setModalState] = useRecoilState(authModalStateAtom)
 
     const handleClose = () => {
         setModalState(prevState => ({

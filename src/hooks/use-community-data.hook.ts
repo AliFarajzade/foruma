@@ -10,8 +10,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { useRecoilState } from 'recoil'
 import { auth, firestore } from '../firebase/config.firebase'
-import authModalState from '../recoil/atoms/auth-modal.atom'
-import communitySnippetState from '../recoil/atoms/community.atom'
+import authModalStateAtom from '../recoil/atoms/auth-modal.atom'
+import communitySnippetStateAtom from '../recoil/atoms/community.atom'
 import { TCommunity, TCommunitySnippet } from '../types/community.types'
 
 const useCommunityData = () => {
@@ -20,10 +20,10 @@ const useCommunityData = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const [communityState, setCommunityState] = useRecoilState(
-        communitySnippetState
+        communitySnippetStateAtom
     )
 
-    const [, setModalState] = useRecoilState(authModalState)
+    const [, setModalState] = useRecoilState(authModalStateAtom)
 
     const joinCommunity = async (communityData: TCommunity) => {
         setIsLoading(true)

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { Button, Flex, Icon, Input, Text } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
 import { BsDot, BsReddit } from 'react-icons/bs'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
-import { auth } from '../../firebase/config.firebase'
 import { useSetRecoilState } from 'recoil'
+import { auth } from '../../firebase/config.firebase'
 import { firebaseErrors } from '../../firebase/error.firebase'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const ResetPassword: React.FC = () => {
-    const setAuthModalState = useSetRecoilState(authModalState)
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
     const [email, setEmail] = useState('')
     const [processFinished, setProcessFinished] = useState<boolean>(false)
     const [sendPasswordResetEmail, sending, resetError] =

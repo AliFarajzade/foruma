@@ -17,8 +17,8 @@ import { MdOutlineLogin } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
 import { useResetRecoilState, useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
-import communitySnippetState from '../../recoil/atoms/community.atom'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
+import communitySnippetStateAtom from '../../recoil/atoms/community.atom'
 
 type IProps = {
     user: User | undefined | null
@@ -26,9 +26,9 @@ type IProps = {
 
 const NavbarDropDown: React.FC<IProps> = ({ user }) => {
     const resetCommunitySnippetState = useResetRecoilState(
-        communitySnippetState
+        communitySnippetStateAtom
     )
-    const setModalState = useSetRecoilState(authModalState)
+    const setModalState = useSetRecoilState(authModalStateAtom)
 
     const logOut = async () => {
         await signOut(auth)

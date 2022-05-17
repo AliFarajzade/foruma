@@ -1,11 +1,11 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
 import { firebaseErrors } from '../../firebase/error.firebase'
-import toast from 'react-hot-toast'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const LogIn: React.FC = () => {
     const [formValues, setFormValues] = useState<{
@@ -19,7 +19,7 @@ const LogIn: React.FC = () => {
     const [signInWithEmailAndPassword, user, loading, logInError] =
         useSignInWithEmailAndPassword(auth)
 
-    const setModalState = useSetRecoilState(authModalState)
+    const setModalState = useSetRecoilState(authModalStateAtom)
 
     const handleChange = (eventParam: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = eventParam.target

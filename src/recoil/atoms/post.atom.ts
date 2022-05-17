@@ -12,9 +12,9 @@ const INITIAL_STATE: IPostState = {
     posts: [],
 }
 
-const postState = atom<IPostState>({
+const postsStateAtom = atom<IPostState>({
     key: 'postState',
     default: INITIAL_STATE,
 })
 
-export default postState
+export default postsStateAtom

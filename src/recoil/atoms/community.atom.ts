@@ -9,9 +9,9 @@ const initialState: ICommunityState = {
     mySnippets: [],
 }
 
-const communitySnippetState = atom<ICommunityState>({
+const communitySnippetStateAtom = atom<ICommunityState>({
     key: 'communitySnippetState',
     default: initialState,
 })
 
-export default communitySnippetState
+export default communitySnippetStateAtom

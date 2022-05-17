@@ -7,12 +7,12 @@ import { FaReddit } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const CreatePostLink: React.FC = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
-    const setAuthModalState = useSetRecoilState(authModalState)
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
 
     const handleChangeRoute = () => {
         if (!user) {

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
 import { auth, firestore } from '../../firebase/config.firebase'
 import { firebaseErrors } from '../../firebase/error.firebase'
-import authModalState from '../../recoil/atoms/auth-modal.atom'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const SignUp: React.FC = () => {
     const [formValues, setFormValues] = useState<{
@@ -21,7 +21,7 @@ const SignUp: React.FC = () => {
     })
     const [error, setError] = useState<string>('')
 
-    const setModalState = useSetRecoilState(authModalState)
+    const setModalState = useSetRecoilState(authModalStateAtom)
 
     const [createUserWithEmailAndPassword, userCred, loading, signUpError] =
         useCreateUserWithEmailAndPassword(auth)

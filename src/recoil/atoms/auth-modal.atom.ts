@@ -10,9 +10,9 @@ const initialState: IAuthModalState = {
     view: 'logIn',
 }
 
-const authModalState = atom<IAuthModalState>({
+const authModalStateAtom = atom<IAuthModalState>({
     key: 'authModalState',
     default: initialState,
 })
 
-export default authModalState
+export default authModalStateAtom
