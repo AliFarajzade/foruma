@@ -14,7 +14,7 @@ const formTabs = [
         icon: IoDocumentText,
     },
     {
-        title: 'Images & Video',
+        title: 'Image & Video',
         icon: IoImagesOutline,
     },
     {
