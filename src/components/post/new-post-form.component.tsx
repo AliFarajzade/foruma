@@ -6,6 +6,7 @@ import {
     serverTimestamp,
     setDoc,
 } from 'firebase/firestore'
+import type { StorageError } from 'firebase/storage'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -51,6 +52,7 @@ const NewPostForm: React.FC = () => {
     const [overSizeMediaError, setOverSizeMediaError] = useState<boolean>(false)
     const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [error, setError] = useState<null | StorageError>(null)
 
     const { query } = useRouter()
 
@@ -134,6 +136,8 @@ const NewPostForm: React.FC = () => {
 
             toast.success('Posted!')
         } catch (error) {
+            setError(error as StorageError)
+            toast.error('Could not create a post.')
             console.log(error)
         }
 
