@@ -5,6 +5,7 @@ import CommunityHeader from '../../../components/community/community-header.comp
 import CreatePostLink from '../../../components/community/create-post-link.component'
 import CommunityPageLayout from '../../../components/layout/community-layout.component'
 import CommunityNotFound from '../../../components/not-found/no-community.component'
+import Posts from '../../../components/post/posts.component'
 import { firestore } from '../../../firebase/config.firebase'
 import { TCommunity } from '../../../types/community.types'
 
@@ -53,6 +54,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             <CommunityPageLayout>
                 <>
                     <CreatePostLink />
+                    <Posts />
                 </>
                 <>
                     <div>RHS</div>
