@@ -1,4 +1,12 @@
-import { Button, Flex, Input, Stack, Textarea } from '@chakra-ui/react'
+import {
+    Button,
+    Flex,
+    Input,
+    Progress,
+    Stack,
+    Text,
+    Textarea,
+} from '@chakra-ui/react'
 
 interface IProps {
     formData: {
@@ -9,12 +17,18 @@ interface IProps {
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => void
     handleSubmitPost: () => void
+    isLoading: boolean
+    progress: number | null
+    isUploading: boolean
 }
 
 const TextInputs: React.FC<IProps> = ({
     formData,
     handleFormChange,
     handleSubmitPost,
+    isLoading,
+    isUploading,
+    progress,
 }) => {
     return (
         <Stack width="100%" spacing="3">
@@ -49,12 +63,34 @@ const TextInputs: React.FC<IProps> = ({
                     borderColor: '#333',
                 }}
             />
-            <Flex justify="flex-end">
+            <Flex
+                justify="space-between"
+                gap={5}
+                align="center"
+                width="100%"
+                py={2}
+            >
+                {isUploading && (
+                    <Stack flexGrow={1}>
+                        <Progress
+                            flexGrow={1}
+                            hasStripe
+                            backgroundColor="gray.200"
+                            value={progress!}
+                            borderRadius="3px"
+                        />
+                        <Text fontSize="10pt">
+                            Uploading media: {progress?.toFixed(0)}%
+                        </Text>
+                    </Stack>
+                )}
                 <Button
                     height="34px"
                     padding="20px 25px"
                     disabled={false}
                     onClick={handleSubmitPost}
+                    isLoading={isLoading}
+                    alignSelf="flex-end"
                 >
                     Post
                 </Button>
