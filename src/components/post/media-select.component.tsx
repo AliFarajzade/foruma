@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player/lazy'
 
 interface IProps {
     handleSelectMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
-    media: string
+    mediaString: string
     overSizeMediaError: boolean
     handleRemoveMedia: () => void
     mediaType: 'image' | 'video' | null
@@ -12,18 +12,16 @@ interface IProps {
 
 const MediaSelect: React.FC<IProps> = ({
     handleSelectMedia,
-    media,
+    mediaString,
     overSizeMediaError,
     handleRemoveMedia,
     mediaType,
 }) => {
     const fileInputElement = useRef<HTMLInputElement | null>(null)
-    console.log(overSizeMediaError)
-    console.log(mediaType)
 
     return (
         <Flex justify="center" align="center" width="100%">
-            {media ? (
+            {mediaString ? (
                 <Stack
                     maxWidth="100%"
                     alignItems="center"
@@ -31,11 +29,11 @@ const MediaSelect: React.FC<IProps> = ({
                     direction="column"
                 >
                     {mediaType === 'image' ? (
-                        <Img maxWidth="100%" src={media} />
+                        <Img maxWidth="100%" src={mediaString} />
                     ) : (
                         <Flex maxWidth="100%">
                             <ReactPlayer
-                                url={media}
+                                url={mediaString}
                                 controls={true}
                                 playing={true}
                             />
