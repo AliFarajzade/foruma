@@ -1,4 +1,4 @@
-import type { FieldValue, Timestamp } from 'firebase/firestore'
+import type { Timestamp } from 'firebase/firestore'
 
 export type TPost = {
     ID: string
@@ -12,5 +12,5 @@ export type TPost = {
     mediaURL?: string
     mediaType?: 'image' | 'video'
     communityImageURL?: string
-    createdAt: Timestamp | FieldValue
+    createdAt: Timestamp
 }
