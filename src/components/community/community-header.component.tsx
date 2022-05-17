@@ -8,7 +8,6 @@ interface IProps {
 }
 
 const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
-    console.log(communityData)
     const { communityMembershipToggle, communityState, isLoading } =
         useCommunityData()
     const isJoined = !!communityState.mySnippets.find(
