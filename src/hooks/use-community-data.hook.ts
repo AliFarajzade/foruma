@@ -135,7 +135,6 @@ const useCommunityData = () => {
                 : (communitySnippetSnap.docs.map(document => ({
                       ...document.data(),
                   })) as TCommunitySnippet[] | [])
-            console.log('data:', data)
 
             setCommunityState(prevState => ({
                 ...prevState,
