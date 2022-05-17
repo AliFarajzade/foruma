@@ -105,6 +105,7 @@ const NewPostForm: React.FC = () => {
         if (!user) return
 
         setIsLoading(true)
+        setError(null)
 
         const newPost: Omit<TPost, 'ID'> = {
             communityID: query.communityID as string,
@@ -133,7 +134,8 @@ const NewPostForm: React.FC = () => {
                 const postRef = doc(firestore, 'posts', postDocRef.id)
                 await setDoc(postRef, { mediaURL, mediaType }, { merge: true })
             }
-
+            setMediaString('')
+            setMediaFile(null)
             toast.success('Posted!')
         } catch (error) {
             setError(error as StorageError)
@@ -169,7 +171,7 @@ const NewPostForm: React.FC = () => {
                     />
                 )}
 
-                {selectedTab === 'Images & Video' && (
+                {selectedTab === 'Image & Video' && (
                     <MediaSelect
                         handleSelectMedia={handleSelectMedia}
                         mediaString={mediaString}
