@@ -5,6 +5,7 @@ import {
     doc,
     serverTimestamp,
     setDoc,
+    Timestamp,
 } from 'firebase/firestore'
 import type { StorageError } from 'firebase/storage'
 import { useRouter } from 'next/router'
@@ -54,7 +55,7 @@ const NewPostForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<null | StorageError>(null)
 
-    const { query } = useRouter()
+    const router = useRouter()
 
     const [{ isUploading, progress }, uploadFile] = useUploadFile()
 
@@ -108,8 +109,8 @@ const NewPostForm: React.FC = () => {
         setError(null)
 
         const newPost: Omit<TPost, 'ID'> = {
-            communityID: query.communityID as string,
-            createdAt: serverTimestamp(),
+            communityID: router.query.communityID as string,
+            createdAt: serverTimestamp() as Timestamp,
             creatorID: user.uid,
             creatorDisplayName: user.displayName ?? user.email!.split('@')[0],
             description: formData.description,
@@ -126,7 +127,9 @@ const NewPostForm: React.FC = () => {
             if (mediaFile && !overSizeMediaError) {
                 const mediaURL = await uploadFile(
                     mediaFile,
-                    `posts/${query.communityID}/${mediaFile.name.substring(
+                    `posts/${router.query.communityID}/${
+                        postDocRef.id
+                    }/${mediaFile.name.substring(
                         0,
                         10
                     )}-${new Date().toISOString()}`
@@ -137,6 +140,7 @@ const NewPostForm: React.FC = () => {
             setMediaString('')
             setMediaFile(null)
             toast.success('Posted!')
+            router.push(`/r/${router.query.communityID}`)
         } catch (error) {
             setError(error as StorageError)
             toast.error('Could not create a post.')
