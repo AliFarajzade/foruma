@@ -127,12 +127,7 @@ const NewPostForm: React.FC = () => {
             if (mediaFile && !overSizeMediaError) {
                 const mediaURL = await uploadFile(
                     mediaFile,
-                    `posts/${router.query.communityID}/${
-                        postDocRef.id
-                    }/${mediaFile.name.substring(
-                        0,
-                        10
-                    )}-${new Date().toISOString()}`
+                    `posts/${router.query.communityID}/${postDocRef.id}`
                 )
                 const postRef = doc(firestore, 'posts', postDocRef.id)
                 await setDoc(postRef, { mediaURL, mediaType }, { merge: true })
