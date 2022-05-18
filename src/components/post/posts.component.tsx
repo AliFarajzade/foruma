@@ -14,6 +14,7 @@ import { v4 as uuid } from 'uuid'
 import { auth, firestore } from '../../firebase/config.firebase'
 import usePosts from '../../hooks/use-posts.hook'
 import { TPost } from '../../types/post.types'
+import NoPosts from './no-posts.component'
 import PostItem from './post-item.component'
 import PostSkeleton from './post-skeleton.component'
 
@@ -60,18 +61,23 @@ const Posts: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            {isLoading
-                ? Array(5)
-                      .fill(' ')
-                      .map(_ => <PostSkeleton key={uuid()} />)
-                : postsState.posts.map(postObj => (
-                      <PostItem
-                          key={uuid()}
-                          post={postObj}
-                          isUserTheCreator={user?.uid === postObj.creatorID}
-                          userVoteValue={1}
-                      />
-                  ))}
+            {isLoading ? (
+                Array(5)
+                    .fill(' ')
+                    .map(_ => <PostSkeleton key={uuid()} />)
+            ) : postsState.posts.length ? (
+                postsState.posts.map(postObj => (
+                    <PostItem
+                        key={uuid()}
+                        post={postObj}
+                        isUserTheCreator={user?.uid === postObj.creatorID}
+                        userVoteValue={1}
+                        handleDeletePost={handleDeletePost}
+                    />
+                ))
+            ) : (
+                <NoPosts />
+            )}
         </Stack>
     )
 }
