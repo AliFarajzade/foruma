@@ -1,6 +1,15 @@
-import { Flex, Icon, Img, Skeleton, Stack, Text } from '@chakra-ui/react'
+import {
+    Flex,
+    Icon,
+    Img,
+    Skeleton,
+    Spinner,
+    Stack,
+    Text,
+} from '@chakra-ui/react'
 import moment from 'moment'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { BsChat } from 'react-icons/bs'
 import {
@@ -18,16 +27,33 @@ interface IProps {
     post: TPost
     isUserTheCreator: boolean
     userVoteValue: number
+    handleDeletePost: (post: TPost) => Promise<boolean>
 }
 
 const PostItem: React.FC<IProps> = ({
     post,
     isUserTheCreator,
     userVoteValue,
+    handleDeletePost,
 }) => {
     const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
         !!(post.mediaType === 'image')
     )
+    const [isDeleting, setIsDeleting] = useState<boolean>(false)
+    // const [deleteError, setDeleteError] = useState<any>(null)
+
+    const deletePost = async () => {
+        setIsDeleting(true)
+        try {
+            const status = await handleDeletePost(post)
+
+            if (status) toast('Post Deleted.', { icon: '👍️' })
+            else toast.error('Could not delete the post.')
+        } catch (error) {
+            console.log(error)
+        }
+        setIsDeleting(false)
+    }
 
     return (
         <Flex
@@ -177,9 +203,17 @@ const PostItem: React.FC<IProps> = ({
                             borderRadius={4}
                             _hover={{ bg: 'gray.200' }}
                             cursor="pointer"
+                            onClick={() => {
+                                if (isDeleting) return
+                                deletePost()
+                            }}
                         >
-                            <Icon as={AiOutlineDelete} mr="2" />
-                            <Text fontSize="9pt">Delete</Text>
+                            {isDeleting ? (
+                                <Spinner />
+                            ) : (
+                                <Icon as={AiOutlineDelete} mr="2" />
+                            )}
+                            {!isDeleting && <Text fontSize="9pt">Delete</Text>}
                         </Flex>
                     )}
                 </Flex>
