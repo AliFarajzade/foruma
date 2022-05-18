@@ -1,5 +1,6 @@
-import { Flex, Icon, Img, Stack, Text } from '@chakra-ui/react'
+import { Flex, Icon, Img, Skeleton, Stack, Text } from '@chakra-ui/react'
 import moment from 'moment'
+import { useState } from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { BsChat } from 'react-icons/bs'
 import {
@@ -24,6 +25,10 @@ const PostItem: React.FC<IProps> = ({
     isUserTheCreator,
     userVoteValue,
 }) => {
+    const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
+        !!(post.mediaType === 'image')
+    )
+
     return (
         <Flex
             overflow="hidden"
@@ -78,7 +83,18 @@ const PostItem: React.FC<IProps> = ({
                     >
                         {/* Home page check */}
                         <Text color="gray.600">
-                            Posted by u/{post.creatorDisplayName}{' '}
+                            Posted by{' '}
+                            <Text
+                                color="gray.900"
+                                display="inline"
+                                fontWeight="bold"
+                                mr="1"
+                            >
+                                u/{post.creatorDisplayName}
+                            </Text>
+                            <Text display="inline" mr="1">
+                                &#8226;
+                            </Text>
                             {moment(
                                 new Date(post.createdAt?.seconds! * 1000)
                             ).fromNow()}
@@ -91,8 +107,10 @@ const PostItem: React.FC<IProps> = ({
                         </Text>
                         <Text fontSize="11pt">{post.description}</Text>
                     </Stack>
-
-                    {post.mediaType && (
+                    {isMediaLoading && post.mediaType === 'image' && (
+                        <Skeleton width="100%" height="300px" />
+                    )}
+                    {post.mediaURL && (
                         <Flex
                             width="100%"
                             justify="center"
@@ -102,6 +120,7 @@ const PostItem: React.FC<IProps> = ({
                                 post.mediaType === 'video' ? '1px solid' : ''
                             }
                             borderColor="gray.200"
+                            borderRadius="3px"
                         >
                             {post.mediaType === 'video' && (
                                 <ReactPlayer
@@ -111,7 +130,11 @@ const PostItem: React.FC<IProps> = ({
                                 />
                             )}
                             {post.mediaType === 'image' && (
-                                <Img src={post.mediaURL} maxHeight="460px" />
+                                <Img
+                                    onLoad={() => setIsMediaLoading(false)}
+                                    src={post.mediaURL}
+                                    maxHeight="460px"
+                                />
                             )}
                         </Flex>
                     )}
