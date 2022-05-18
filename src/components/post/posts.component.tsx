@@ -25,7 +25,7 @@ const Posts: React.FC = () => {
 
     const { query: routeQuery } = useRouter()
 
-    const { postsState, setPostsState } = usePosts()
+    const { postsState, setPostsState, handleDeletePost } = usePosts()
 
     const getPosts = async () => {
         setIsLoading(true)
