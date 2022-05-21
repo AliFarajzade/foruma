@@ -1,12 +1,16 @@
 import { doc, getDoc } from 'firebase/firestore'
 import { GetServerSidePropsContext, NextPage } from 'next'
+import { useEffect } from 'react'
+import { useSetRecoilState } from 'recoil'
 import safeJsonStringify from 'safe-json-stringify'
+import AboutCommunity from '../../../components/community/about-community.component'
 import CommunityHeader from '../../../components/community/community-header.component'
 import CreatePostLink from '../../../components/community/create-post-link.component'
 import CommunityPageLayout from '../../../components/layout/community-layout.component'
 import CommunityNotFound from '../../../components/not-found/no-community.component'
 import Posts from '../../../components/post/posts.component'
 import { firestore } from '../../../firebase/config.firebase'
+import communitySnippetStateAtom from '../../../recoil/atoms/community.atom'
 import { TCommunity } from '../../../types/community.types'
 
 interface IProps {
@@ -48,6 +52,18 @@ export const getServerSideProps = async (
 }
 
 const CommunityPage: NextPage<IProps> = ({ communityData }) => {
+    const setCommunitySnippetState = useSetRecoilState(
+        communitySnippetStateAtom
+    )
+
+    useEffect(() => {
+        if (communityData)
+            setCommunitySnippetState(prevState => ({
+                ...prevState,
+                currentCommunity: communityData,
+            }))
+    }, [])
+
     return communityData ? (
         <>
             <CommunityHeader communityData={communityData} />
