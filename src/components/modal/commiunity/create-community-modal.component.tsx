@@ -107,6 +107,8 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
     }, [communityName])
 
     const handleCreateCommunity = async () => {
+        if (!user) return
+
         const batch = writeBatch(firestore)
         const communityRef = doc(firestore, 'communities', communityName)
         const userCommunityRef = doc(
@@ -115,6 +117,7 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
             communityName
         )
         batch.set(communityRef, {
+            creatorName: user.displayName ?? user.email!.split('@')[0],
             creatorID: user?.uid,
             createdAt: serverTimestamp(),
             numberOfMembers: 1,
