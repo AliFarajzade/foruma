@@ -1,0 +1,92 @@
+import { Box, Divider, Flex, Icon, Stack, Text } from '@chakra-ui/react'
+import moment from 'moment'
+import { BsPerson } from 'react-icons/bs'
+import { HiOutlineDotsHorizontal } from 'react-icons/hi'
+import { RiCakeLine } from 'react-icons/ri'
+import { TCommunity } from '../../types/community.types'
+
+interface IProps {
+    currentCommunity: TCommunity
+}
+
+const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
+    return (
+        <Box position="sticky" borderRadius="4px" overflow="hidden" top="15px">
+            <Flex
+                justify="space-between"
+                align="center"
+                bg="blue.400"
+                p={3}
+                color="white"
+            >
+                <Text fontSize="10pt" fontWeight="700">
+                    About Community
+                </Text>
+                <Icon as={HiOutlineDotsHorizontal} />
+            </Flex>
+            <Flex justify="space-between" align="center" bg="white">
+                <Stack width="100%" p="3">
+                    <Flex
+                        width="100%"
+                        textAlign="center"
+                        p={2}
+                        justify="space-between"
+                        fontSize="10pt"
+                        fontWeight="700"
+                    >
+                        <Flex direction="column" flexGrow={1}>
+                            <Text>{currentCommunity.numberOfMembers}</Text>
+                            <Text>
+                                {currentCommunity.numberOfMembers > 1
+                                    ? 'Members'
+                                    : 'Member'}
+                            </Text>
+                        </Flex>
+                        <Flex direction="column" flexGrow={1}>
+                            <Text>1</Text>
+                            <Text>Online</Text>
+                        </Flex>
+                    </Flex>
+                    <Divider />
+                    <Flex
+                        align="center"
+                        width="100%"
+                        p={1}
+                        fontSize="10pt"
+                        fontWeight="500"
+                    >
+                        <Icon as={RiCakeLine} fontSize="18" mr={2} />
+                        <Text>
+                            Created{' '}
+                            <Text display="inline" fontWeight="600">
+                                {moment(
+                                    new Date(
+                                        currentCommunity.createdAt.seconds *
+                                            1000
+                                    )
+                                ).format('MMM DD, YYYY')}
+                            </Text>
+                        </Text>
+                    </Flex>
+                    <Flex
+                        align="center"
+                        width="100%"
+                        p={1}
+                        fontSize="10pt"
+                        fontWeight="500"
+                    >
+                        <Icon as={BsPerson} fontSize="18" mr={2} />
+                        <Text>
+                            Created By{' '}
+                            <Text display="inline" fontWeight="600">
+                                u/{currentCommunity.creatorName}
+                            </Text>
+                        </Text>
+                    </Flex>
+                </Stack>
+            </Flex>
+        </Box>
+    )
+}
+
+export default AboutCommunity
