@@ -1,8 +1,9 @@
 import { atom } from 'recoil'
-import { TCommunitySnippet } from '../../types/community.types'
+import { TCommunity, TCommunitySnippet } from '../../types/community.types'
 
 interface ICommunityState {
     mySnippets: TCommunitySnippet[]
+    currentCommunity?: TCommunity
 }
 
 const initialState: ICommunityState = {
