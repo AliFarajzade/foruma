@@ -1,8 +1,11 @@
-import { Box, Divider, Flex, Icon, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Divider, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import moment from 'moment'
+import Link from 'next/link'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsPerson } from 'react-icons/bs'
 import { HiOutlineDotsHorizontal } from 'react-icons/hi'
 import { RiCakeLine } from 'react-icons/ri'
+import { auth } from '../../firebase/config.firebase'
 import { TCommunity } from '../../types/community.types'
 
 interface IProps {
@@ -10,6 +13,7 @@ interface IProps {
 }
 
 const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
+    const [user] = useAuthState(auth)
     return (
         <Box position="sticky" borderRadius="4px" overflow="hidden" top="15px">
             <Flex
@@ -83,6 +87,17 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                             </Text>
                         </Text>
                     </Flex>
+                    <Divider />
+
+                    {user && (
+                        <Link
+                            href={`/r/${currentCommunity.id}/submit`}
+                            prefetch={false}
+                            passHref
+                        >
+                            <Button height="30px">Create Post</Button>
+                        </Link>
+                    )}
                 </Stack>
             </Flex>
         </Box>
