@@ -73,7 +73,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
                     <Posts />
                 </>
                 <>
-                    <div>RHS</div>
+                    <AboutCommunity currentCommunity={communityData} />
                 </>
             </CommunityPageLayout>
         </>
