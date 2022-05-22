@@ -19,7 +19,19 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
             <Flex justify="center" bg="white" flexGrow={1}>
                 <Flex width="95%" maxWidth="860px">
                     {communityData.imageURL ? (
-                        <Img /* Add image here */ />
+                        <Img
+                            src={
+                                communityState.currentCommunity?.imageURL ??
+                                communityData.imageURL
+                            }
+                            borderRadius="full"
+                            boxSize="60px"
+                            alt="Community Profile Picture"
+                            position="relative"
+                            top="-3"
+                            color="blue.500"
+                            border="4px solid white"
+                        />
                     ) : (
                         <Icon
                             as={FaReddit}
