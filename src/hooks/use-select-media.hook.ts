@@ -6,7 +6,7 @@ const useSelectMedia = (
     {
         mediaFile: File | null
         overSizeMediaError: boolean
-        mediaType: 'image' | null
+        mediaType: 'image' | 'video' | null
         mediaString: string
     },
     (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -14,7 +14,7 @@ const useSelectMedia = (
 ] => {
     const [mediaFile, setMediaFile] = useState<File | null>(null)
     const [overSizeMediaError, setOverSizeMediaError] = useState<boolean>(false)
-    const [mediaType, setMediaType] = useState<'image' | null>(null)
+    const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null)
     const [mediaString, setMediaString] = useState<string>('')
 
     const selectMedia = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,9 @@ const useSelectMedia = (
         }
 
         setOverSizeMediaError(false)
-        setMediaType('image')
+        setMediaType(
+            event.target.files[0].type.startsWith('video') ? 'video' : 'image'
+        )
         setMediaFile(event.target.files[0])
 
         const reader = new FileReader()
@@ -43,7 +45,9 @@ const useSelectMedia = (
 
     const removeMedia = () => {
         setMediaString('')
+        setMediaType(null)
         setMediaFile(null)
+        setOverSizeMediaError(false)
     }
 
     return [
