@@ -17,6 +17,7 @@ import { BsMic } from 'react-icons/bs'
 import { IoDocumentText, IoImagesOutline } from 'react-icons/io5'
 import { v4 as uuidv4 } from 'uuid'
 import { auth, firestore } from '../../firebase/config.firebase'
+import useSelectMedia from '../../hooks/use-select-media.hook'
 import useUploadFile from '../../hooks/use-upload-file.hook'
 import { TPost } from '../../types/post.types'
 import MediaSelect from './media-select.component'
@@ -48,10 +49,13 @@ const NewPostForm: React.FC = () => {
         title: string
         description: string
     }>({ title: '', description: '' })
-    const [mediaString, setMediaString] = useState<string>('')
-    const [mediaFile, setMediaFile] = useState<File | null>(null)
-    const [overSizeMediaError, setOverSizeMediaError] = useState<boolean>(false)
-    const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null)
+
+    const [
+        { mediaFile, mediaString, overSizeMediaError, mediaType },
+        handleSelectMedia,
+        handleRemoveMedia,
+    ] = useSelectMedia()
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<null | StorageError>(null)
 
@@ -70,37 +74,6 @@ const NewPostForm: React.FC = () => {
             ...prevState,
             [event.target.name]: event.target.value,
         }))
-
-    const handleSelectMedia = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.files)
-        if (!event.target.files?.[0]) return
-
-        if (event.target.files[0].size > 5242880) {
-            setOverSizeMediaError(true)
-            setMediaType(null)
-            return
-        }
-
-        setOverSizeMediaError(false)
-        setMediaType(
-            event.target.files[0].type.startsWith('video') ? 'video' : 'image'
-        )
-        setMediaFile(event.target.files[0])
-
-        const reader = new FileReader()
-
-        reader.readAsDataURL(event.target.files?.[0])
-
-        reader.onload = readerEvent => {
-            if (!readerEvent.target?.result) return
-            setMediaString(readerEvent.target?.result as string)
-        }
-    }
-
-    const handleRemoveMedia = () => {
-        setMediaString('')
-        setMediaType(null)
-    }
 
     const handleSubmitPost = async () => {
         if (!user) return
@@ -132,8 +105,7 @@ const NewPostForm: React.FC = () => {
                 const postRef = doc(firestore, 'posts', postDocRef.id)
                 await setDoc(postRef, { mediaURL, mediaType }, { merge: true })
             }
-            setMediaString('')
-            setMediaFile(null)
+
             toast.success('Posted!')
             router.push(`/r/${router.query.communityID}`)
         } catch (error) {
