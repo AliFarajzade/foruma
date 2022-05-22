@@ -21,7 +21,7 @@ import PostSkeleton from './post-skeleton.component'
 const Posts: React.FC = () => {
     const [user] = useAuthState(auth)
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const { query: routeQuery } = useRouter()
 
