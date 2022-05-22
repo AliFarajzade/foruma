@@ -8,6 +8,8 @@ interface IProps {
     overSizeMediaError: boolean
     handleRemoveMedia: () => void
     mediaType: 'image' | 'video' | null
+    fileSizeAndTypeMessage: string
+    errorMessage: string
 }
 
 const MediaSelect: React.FC<IProps> = ({
@@ -16,6 +18,8 @@ const MediaSelect: React.FC<IProps> = ({
     overSizeMediaError,
     handleRemoveMedia,
     mediaType,
+    fileSizeAndTypeMessage,
+    errorMessage,
 }) => {
     const fileInputElement = useRef<HTMLInputElement | null>(null)
 
@@ -73,11 +77,11 @@ const MediaSelect: React.FC<IProps> = ({
                             fontSize="11pt"
                             color="red.500"
                         >
-                            File is larger than 5MB. Select another file.
+                            {errorMessage}
                         </Text>
                     )}
                     <Text my="4" fontSize="10pt" color="gray.500">
-                        JPEG, JPG, PNG and mp4 files under 5MB.
+                        {fileSizeAndTypeMessage}
                     </Text>
                     <Input
                         hidden

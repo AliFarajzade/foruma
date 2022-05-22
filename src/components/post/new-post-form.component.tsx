@@ -149,6 +149,8 @@ const NewPostForm: React.FC = () => {
                         overSizeMediaError={overSizeMediaError}
                         handleRemoveMedia={handleRemoveMedia}
                         mediaType={mediaType}
+                        fileSizeAndTypeMessage="JPEG, JPG, PNG and mp4 files under 5MB."
+                        errorMessage="File is larger than 5MB. Select another file."
                     />
                 )}
                 <Flex py={4}></Flex>
