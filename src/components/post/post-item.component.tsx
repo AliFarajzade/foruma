@@ -1,4 +1,5 @@
 import {
+    Box,
     Flex,
     Icon,
     Img,
@@ -108,7 +109,7 @@ const PostItem: React.FC<IProps> = ({
                         fontSize="9pt"
                     >
                         {/* Home page check */}
-                        <Text color="gray.600">
+                        <Box color="gray.600">
                             Posted by{' '}
                             <Text
                                 color="gray.900"
@@ -124,7 +125,7 @@ const PostItem: React.FC<IProps> = ({
                             {moment(
                                 new Date(post.createdAt?.seconds! * 1000)
                             ).fromNow()}
-                        </Text>
+                        </Box>
                     </Stack>
 
                     <Stack pb="4">

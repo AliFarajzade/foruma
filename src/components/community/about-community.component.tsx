@@ -60,7 +60,7 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                         fontWeight="500"
                     >
                         <Icon as={RiCakeLine} fontSize="18" mr={2} />
-                        <Text>
+                        <Box>
                             Created{' '}
                             <Text display="inline" fontWeight="600">
                                 {moment(
@@ -70,7 +70,7 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                                     )
                                 ).format('MMM DD, YYYY')}
                             </Text>
-                        </Text>
+                        </Box>
                     </Flex>
                     <Flex
                         align="center"
@@ -80,12 +80,12 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                         fontWeight="500"
                     >
                         <Icon as={BsPerson} fontSize="18" mr={2} />
-                        <Text>
+                        <Box>
                             Created By{' '}
                             <Text display="inline" fontWeight="600">
                                 u/{currentCommunity.creatorName}
                             </Text>
-                        </Text>
+                        </Box>
                     </Flex>
                     <Divider />
 
