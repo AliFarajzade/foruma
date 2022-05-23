@@ -13,6 +13,7 @@ export type TCommunity = {
     numberOfMembers: number
     privacyType: string
     imageURL?: string
+    headerImgURL?: string
 }
 
 export type TCommunitySnippet = {
