@@ -38,7 +38,8 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                 flexGrow={communityData.headerImgURL ? 'unset' : 1}
             >
                 <Flex width="95%" maxWidth="860px">
-                    {communityData.imageURL ? (
+                    {communityData.imageURL ||
+                    communityState.currentCommunity?.imageURL ? (
                         <Img
                             src={
                                 communityState.currentCommunity?.imageURL ??
