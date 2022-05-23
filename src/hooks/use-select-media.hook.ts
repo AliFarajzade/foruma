@@ -24,6 +24,8 @@ const useSelectMedia = (
         if (event.target.files[0].size > maxSize) {
             setOverSizeMediaError(true)
             setMediaType(null)
+            setMediaFile(null)
+            setMediaString('')
             return
         }
 
