@@ -14,9 +14,26 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
         ({ communityID }) => communityID === communityData.id
     )
     return (
-        <Flex direction="column" width="100%" height="146px">
-            <Box height="50%" bg="blue.400" />
-            <Flex justify="center" bg="white" flexGrow={1}>
+        <Flex
+            direction="column"
+            width="100%"
+            height={communityData.headerImgURL ? '350px' : '146px'}
+        >
+            {communityData.headerImgURL ? (
+                <Img
+                    height="80%"
+                    objectFit="cover"
+                    src={communityData.headerImgURL}
+                />
+            ) : (
+                <Box height="50%" bg="blue.400" />
+            )}
+            <Flex
+                justify="center"
+                bg="white"
+                height={communityData.headerImgURL ? '20%' : 'unset'}
+                flexGrow={communityData.headerImgURL ? 'unset' : 1}
+            >
                 <Flex width="95%" maxWidth="860px">
                     {communityData.imageURL ? (
                         <Img
