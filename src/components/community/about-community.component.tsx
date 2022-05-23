@@ -111,6 +111,7 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                             currentCommunity={currentCommunity}
                             communitySnippetState={communitySnippetState}
                             setCommunitySnippetState={setCommunitySnippetState}
+                            uid={user.uid}
                         />
                     )}
                 </Stack>

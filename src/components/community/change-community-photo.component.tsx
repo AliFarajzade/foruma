@@ -8,7 +8,7 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, writeBatch } from 'firebase/firestore'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaReddit } from 'react-icons/fa'
@@ -23,12 +23,14 @@ interface IProps {
     currentCommunity: TCommunity
     communitySnippetState: ICommunityState
     setCommunitySnippetState: SetterOrUpdater<ICommunityState>
+    uid: string
 }
 
 const ChangeCommunityPhoto: React.FC<IProps> = ({
     currentCommunity,
     communitySnippetState,
     setCommunitySnippetState,
+    uid,
 }) => {
     const fileInputElement = useRef<HTMLInputElement | null>(null)
 
@@ -42,9 +44,21 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
 
     const [{ progress }, uploadPhoto] = useUploadFile()
 
+    console.log(
+        currentCommunity.imageURL,
+        communitySnippetState.currentCommunity
+    )
+
     const handleUploadPhoto = async () => {
         if (!mediaFile || overSizeMediaError) return
         setIsLoading(true)
+        const batch = writeBatch(firestore)
+        const communityRef = doc(firestore, 'communities', currentCommunity.id)
+        const communitySnippetRef = doc(
+            firestore,
+            `users/${uid}/communitySnippets`,
+            currentCommunity.id
+        )
         try {
             // Upload file
             const imageURL = await uploadPhoto(
@@ -52,13 +66,11 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
                 `communities/${currentCommunity.id}/communityProfile`
             )
 
-            // Update doc
-            const communityRef = doc(
-                firestore,
-                'communities',
-                currentCommunity.id
-            )
-            await setDoc(communityRef, { imageURL }, { merge: true })
+            // Update docs
+            batch.update(communityRef, { imageURL })
+            batch.update(communitySnippetRef, { imageURL })
+
+            await batch.commit()
 
             setCommunitySnippetState(prevState => ({
                 ...prevState,
@@ -90,7 +102,7 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
                     />
                     {isLoading && (
                         <Progress
-                            value={progress!}
+                            value={progress || 100}
                             borderRadius="3"
                             hasStripe
                             flexGrow="1"
@@ -135,7 +147,7 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
                         </>
                     )}
                     {(currentCommunity.imageURL ||
-                        communitySnippetState.currentCommunity) &&
+                        communitySnippetState.currentCommunity?.imageURL) &&
                     !mediaString ? (
                         <Img
                             src={
