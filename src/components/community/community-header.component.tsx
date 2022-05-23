@@ -1,13 +1,16 @@
 import { Box, Button, Flex, Icon, Img, Text } from '@chakra-ui/react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaReddit } from 'react-icons/fa'
 import useCommunityData from '../../hooks/use-community-data.hook'
 import { TCommunity } from '../../types/community.types'
+import { auth } from './../../firebase/config.firebase'
 
 interface IProps {
     communityData: TCommunity
 }
 
 const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
+    const [user] = useAuthState(auth)
     const { communityMembershipToggle, communityState, isLoading } =
         useCommunityData()
     const isJoined = !!communityState.mySnippets.find(
@@ -80,6 +83,7 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                             px="6"
                             cursor={isJoined ? 'default' : 'pointer'}
                             onClick={() =>
+                                user?.uid !== communityData.creatorID &&
                                 communityMembershipToggle(
                                     communityData,
                                     isJoined
