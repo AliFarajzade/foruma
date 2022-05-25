@@ -27,8 +27,13 @@ import { TPost } from '../../types/post.types'
 interface IProps {
     post: TPost
     isUserTheCreator: boolean
-    userVoteValue: number
+    userVoteValue: 1 | -1 | undefined
     handleDeletePost: (post: TPost) => Promise<boolean>
+    handlePostVote: (
+        post: TPost,
+        voteValue: 1 | -1,
+        communityID: string
+    ) => Promise<void>
 }
 
 const PostItem: React.FC<IProps> = ({
@@ -36,12 +41,12 @@ const PostItem: React.FC<IProps> = ({
     isUserTheCreator,
     userVoteValue,
     handleDeletePost,
+    handlePostVote,
 }) => {
     const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
         !!(post.mediaType === 'image')
     )
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
-    // const [deleteError, setDeleteError] = useState<any>(null)
 
     const deletePost = async () => {
         setIsDeleting(true)
@@ -63,7 +68,6 @@ const PostItem: React.FC<IProps> = ({
             borderColor="gray.300"
             borderRadius={4}
             _hover={{ borderColor: 'gray.500' }}
-            cursor="pointer"
             bg="white"
         >
             <Flex
@@ -82,7 +86,7 @@ const PostItem: React.FC<IProps> = ({
                     }
                     color={userVoteValue === 1 ? 'brand.primary' : 'gray.400'}
                     fontSize={25}
-                    onClick={() => {}}
+                    onClick={() => handlePostVote(post, 1, post.communityID)}
                     cursor="pointer"
                 />
                 <Text fontSize={post.voteStatus > 999 ? '9pt' : '10pt'}>
@@ -96,7 +100,7 @@ const PostItem: React.FC<IProps> = ({
                     }
                     color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
                     fontSize={25}
-                    onClick={() => {}}
+                    onClick={() => handlePostVote(post, -1, post.communityID)}
                     cursor="pointer"
                 />
             </Flex>
