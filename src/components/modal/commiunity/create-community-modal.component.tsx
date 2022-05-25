@@ -249,12 +249,7 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
                             onChange={setCommunityType}
                             value={communityType}
                         >
-                            <Radio
-                                spacing="2"
-                                isFullWidth={true}
-                                mb="1"
-                                value="public"
-                            >
+                            <Radio spacing="2" mb="1" value="public">
                                 <Flex align="center">
                                     <Icon mr="1" as={BsFillPersonFill} />
                                     Public
@@ -269,12 +264,7 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
                                 Anybody can view this community plus post and
                                 comment on it.
                             </Text>
-                            <Radio
-                                spacing="2"
-                                isFullWidth={true}
-                                mb="1"
-                                value="restricted"
-                            >
+                            <Radio spacing="2" mb="1" value="restricted">
                                 <Flex align="center">
                                     <Icon mr="1" as={BsFillEyeFill} />
                                     Restricted
@@ -289,12 +279,7 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
                                 Anybody can view this community but only certain
                                 users can post.
                             </Text>
-                            <Radio
-                                spacing="2"
-                                isFullWidth={true}
-                                mb="1"
-                                value="private"
-                            >
+                            <Radio spacing="2" mb="1" value="private">
                                 <Flex align="center">
                                     <Icon mr="1" as={HiLockClosed} />
                                     Private
