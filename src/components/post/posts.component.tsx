@@ -25,14 +25,15 @@ const Posts: React.FC = () => {
 
     const { query: routeQuery } = useRouter()
 
-    const { postsState, setPostsState, handleDeletePost } = usePosts()
+    const { postsState, setPostsState, handleDeletePost, handlePostVote } =
+        usePosts()
 
     const getPosts = async () => {
         setIsLoading(true)
-        const collectionRef = collection(firestore, 'posts')
+        const postsRef = collection(firestore, 'posts')
 
         const postsQuery = query(
-            collectionRef,
+            postsRef,
             where('communityID', '==', routeQuery.communityID),
             orderBy('createdAt', 'desc'),
             limit(10)
@@ -71,8 +72,9 @@ const Posts: React.FC = () => {
                         key={uuid()}
                         post={postObj}
                         isUserTheCreator={user?.uid === postObj.creatorID}
-                        userVoteValue={1}
+                        userVoteValue={undefined}
                         handleDeletePost={handleDeletePost}
+                        handlePostVote={handlePostVote}
                     />
                 ))
             ) : (
