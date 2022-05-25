@@ -1,16 +1,16 @@
 import { atom } from 'recoil'
-import { IPostVote, TPost } from '../../types/post.types'
+import { TPost, TPostVote } from '../../types/post.types'
 
 interface IPostState {
     selectedPost: null | TPost
     posts: TPost[]
-    postsVote: IPostVote[]
+    postsVotes: TPostVote[]
 }
 
 const INITIAL_STATE: IPostState = {
     selectedPost: null,
     posts: [],
-    postsVote: [],
+    postsVotes: [],
 }
 
 const postsStateAtom = atom<IPostState>({
