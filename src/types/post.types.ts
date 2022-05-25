@@ -18,6 +18,6 @@ export type TPost = {
 export type TPostVote = {
     ID: string
     postID: string
-    communtyID: string
+    communityID: string
     voteValue: -1 | 1
 }
