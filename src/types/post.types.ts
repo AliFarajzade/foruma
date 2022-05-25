@@ -14,3 +14,10 @@ export type TPost = {
     communityImageURL?: string
     createdAt: Timestamp
 }
+
+export interface IPostVote {
+    ID: string
+    postID: string
+    communtyID: string
+    voteValue: number
+}
