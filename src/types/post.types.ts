@@ -15,9 +15,9 @@ export type TPost = {
     createdAt: Timestamp
 }
 
-export interface IPostVote {
+export type TPostVote = {
     ID: string
     postID: string
     communtyID: string
-    voteValue: number
+    voteValue: -1 | 1
 }
