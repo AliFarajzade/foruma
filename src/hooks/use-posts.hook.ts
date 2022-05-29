@@ -1,14 +1,59 @@
-import { deleteDoc, doc, increment, writeBatch } from 'firebase/firestore'
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    increment,
+    query,
+    where,
+    writeBatch,
+} from 'firebase/firestore'
 import { deleteObject, ref } from 'firebase/storage'
+import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { auth, firestore, storage } from '../firebase/config.firebase'
+import communitySnippetStateAtom from '../recoil/atoms/community.atom'
 import postsStateAtom from '../recoil/atoms/post.atom'
 import { TPost, TPostVote } from '../types/post.types'
 
 const usePosts = () => {
     const [postsState, setPostsState] = useRecoilState(postsStateAtom)
+    const { currentCommunity } = useRecoilValue(communitySnippetStateAtom)
     const [user] = useAuthState(auth)
+    const [votesIsLoading, setVotesIsLoading] = useState<boolean>(false)
+
+    const getCommunityVotes = async (communityID: string) => {
+        if (!user) return
+
+        console.log('Running')
+
+        setVotesIsLoading(true)
+        const postsVotesRef = collection(
+            firestore,
+            `users/${user.uid}/postsVotes`
+        )
+
+        const votesQuery = query(
+            postsVotesRef,
+            where('communityID', '==', communityID)
+        )
+
+        try {
+            const postsVotesSnap = await getDocs(votesQuery)
+            if (postsVotesSnap.empty) return
+            const postsVotes = postsVotesSnap.docs.map(doc => ({
+                ID: doc.id,
+                ...doc.data(),
+            })) as TPostVote[]
+
+            setPostsState(prevState => ({ ...prevState, postsVotes }))
+        } catch (error) {
+            console.log(error)
+        }
+
+        setVotesIsLoading(false)
+    }
 
     const handlePostVote = async (
         post: TPost,
@@ -132,11 +177,18 @@ const usePosts = () => {
     }
     const handleSelectPost = () => {}
 
+    useEffect(() => {
+        if (!currentCommunity) return
+        console.log(currentCommunity)
+        getCommunityVotes(currentCommunity?.id)
+    }, [currentCommunity?.id, user])
+
     return {
         postsState,
         setPostsState,
         handleDeletePost,
         handlePostVote,
+        votesIsLoading,
     }
 }
 
