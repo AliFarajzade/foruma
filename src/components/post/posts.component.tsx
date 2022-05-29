@@ -72,7 +72,11 @@ const Posts: React.FC = () => {
                         key={uuid()}
                         post={postObj}
                         isUserTheCreator={user?.uid === postObj.creatorID}
-                        userVoteValue={undefined}
+                        userVoteValue={
+                            postsState.postsVotes.find(
+                                ({ postID }) => postID === postObj.ID
+                            )?.voteValue
+                        }
                         handleDeletePost={handleDeletePost}
                         handlePostVote={handlePostVote}
                     />
