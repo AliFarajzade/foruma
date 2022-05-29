@@ -44,11 +44,6 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
 
     const [{ progress }, uploadPhoto] = useUploadFile()
 
-    console.log(
-        currentCommunity.imageURL,
-        communitySnippetState.currentCommunity
-    )
-
     const handleUploadPhoto = async () => {
         if (!mediaFile || overSizeMediaError) return
         setIsLoading(true)
