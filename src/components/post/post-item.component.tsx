@@ -34,6 +34,7 @@ interface IProps {
         voteValue: 1 | -1,
         communityID: string
     ) => Promise<void>
+    votesIsLoading: boolean
 }
 
 const PostItem: React.FC<IProps> = ({
@@ -42,6 +43,7 @@ const PostItem: React.FC<IProps> = ({
     userVoteValue,
     handleDeletePost,
     handlePostVote,
+    votesIsLoading,
 }) => {
     const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
         !!(post.mediaType === 'image')
@@ -70,40 +72,51 @@ const PostItem: React.FC<IProps> = ({
             _hover={{ borderColor: 'gray.500' }}
             bg="white"
         >
-            <Flex
-                direction="column"
-                align="center"
-                bg="gray.100"
-                p={2}
-                gap="1"
-                width="45px"
-            >
-                <Icon
-                    as={
-                        userVoteValue === 1
-                            ? IoArrowUpCircleSharp
-                            : IoArrowUpCircleOutline
-                    }
-                    color={userVoteValue === 1 ? 'brand.primary' : 'gray.400'}
-                    fontSize={25}
-                    onClick={() => handlePostVote(post, 1, post.communityID)}
-                    cursor="pointer"
-                />
-                <Text fontSize={post.voteStatus > 999 ? '9pt' : '10pt'}>
-                    {post.voteStatus}
-                </Text>
-                <Icon
-                    as={
-                        userVoteValue === -1
-                            ? IoArrowDownCircleSharp
-                            : IoArrowDownCircleOutline
-                    }
-                    color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
-                    fontSize={25}
-                    onClick={() => handlePostVote(post, -1, post.communityID)}
-                    cursor="pointer"
-                />
-            </Flex>
+            {votesIsLoading ? (
+                <Skeleton width="45px" />
+            ) : (
+                <Flex
+                    direction="column"
+                    align="center"
+                    bg="gray.100"
+                    p={2}
+                    gap="1"
+                    width="45px"
+                >
+                    <Icon
+                        as={
+                            userVoteValue === 1
+                                ? IoArrowUpCircleSharp
+                                : IoArrowUpCircleOutline
+                        }
+                        color={
+                            userVoteValue === 1 ? 'brand.primary' : 'gray.400'
+                        }
+                        fontSize={25}
+                        onClick={() =>
+                            handlePostVote(post, 1, post.communityID)
+                        }
+                        cursor="pointer"
+                    />
+                    <Text fontSize={post.voteStatus > 999 ? '9pt' : '10pt'}>
+                        {post.voteStatus}
+                    </Text>
+                    <Icon
+                        as={
+                            userVoteValue === -1
+                                ? IoArrowDownCircleSharp
+                                : IoArrowDownCircleOutline
+                        }
+                        color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
+                        fontSize={25}
+                        onClick={() =>
+                            handlePostVote(post, -1, post.communityID)
+                        }
+                        cursor="pointer"
+                    />
+                </Flex>
+            )}
+
             <Flex direction="column" width="100%">
                 <Stack spacing="1" padding="10px">
                     <Stack
