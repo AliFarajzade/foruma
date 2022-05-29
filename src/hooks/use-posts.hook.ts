@@ -41,7 +41,8 @@ const usePosts = () => {
 
         try {
             const postsVotesSnap = await getDocs(votesQuery)
-            if (postsVotesSnap.empty) return
+            if (postsVotesSnap.empty)
+                setPostsState(prevState => ({ ...prevState, postsVotes: [] }))
             const postsVotes = postsVotesSnap.docs.map(doc => ({
                 ID: doc.id,
                 ...doc.data(),
