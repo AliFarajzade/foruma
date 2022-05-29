@@ -15,7 +15,7 @@ import { FaRedditSquare } from 'react-icons/fa'
 import { IoSparkles } from 'react-icons/io5'
 import { MdOutlineLogin } from 'react-icons/md'
 import { VscAccount } from 'react-icons/vsc'
-import { useResetRecoilState, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
 import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 import communitySnippetStateAtom from '../../recoil/atoms/community.atom'
@@ -25,14 +25,17 @@ type IProps = {
 }
 
 const NavbarDropDown: React.FC<IProps> = ({ user }) => {
-    const resetCommunitySnippetState = useResetRecoilState(
+    const setCommunitySnippetState = useSetRecoilState(
         communitySnippetStateAtom
     )
     const setModalState = useSetRecoilState(authModalStateAtom)
 
     const logOut = async () => {
         await signOut(auth)
-        resetCommunitySnippetState()
+        setCommunitySnippetState(prevState => ({
+            ...prevState,
+            mySnippets: [],
+        }))
     }
 
     return (
