@@ -149,7 +149,13 @@ const useCommunityData = () => {
     }, [user?.uid])
 
     useEffect(() => {
-        user ? getUsersCommunitySnippets() : setIsLoading(false)
+        if (!user) {
+            setIsLoading(false)
+            setCommunityState(prevState => ({
+                ...prevState,
+                mySnippets: [],
+            }))
+        } else getUsersCommunitySnippets()
     }, [user, getUsersCommunitySnippets])
 
     return {

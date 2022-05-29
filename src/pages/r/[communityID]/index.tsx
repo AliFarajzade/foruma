@@ -47,7 +47,12 @@ export const getServerSideProps = async (
             }
         }
     } catch (error) {
-        console.log('Get server-side props error: ', error)
+        console.log(error)
+        return {
+            props: {
+                communityData: null,
+            },
+        }
     }
 }
 
