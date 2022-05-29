@@ -11,8 +11,9 @@ import {
 import { deleteObject, ref } from 'firebase/storage'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { auth, firestore, storage } from '../firebase/config.firebase'
+import authModalStateAtom from '../recoil/atoms/auth-modal.atom'
 import communitySnippetStateAtom from '../recoil/atoms/community.atom'
 import postsStateAtom from '../recoil/atoms/post.atom'
 import { TPost, TPostVote } from '../types/post.types'
@@ -22,11 +23,10 @@ const usePosts = () => {
     const { currentCommunity } = useRecoilValue(communitySnippetStateAtom)
     const [user] = useAuthState(auth)
     const [votesIsLoading, setVotesIsLoading] = useState<boolean>(false)
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
 
     const getCommunityVotes = async (communityID: string) => {
         if (!user) return
-
-        console.log('Running')
 
         setVotesIsLoading(true)
         const postsVotesRef = collection(
@@ -60,7 +60,12 @@ const usePosts = () => {
         voteValue: 1 | -1,
         communityID: string
     ) => {
-        if (!user) return
+        if (!user)
+            return setAuthModalState(prevState => ({
+                ...prevState,
+                open: true,
+                view: 'logIn',
+            }))
 
         const existingVote = postsState.postsVotes.find(
             ({ ID }) => ID === post.ID
@@ -178,10 +183,14 @@ const usePosts = () => {
     const handleSelectPost = () => {}
 
     useEffect(() => {
-        if (!currentCommunity) return
-        console.log(currentCommunity)
+        if (!currentCommunity || !user) return
         getCommunityVotes(currentCommunity?.id)
     }, [currentCommunity?.id, user])
+
+    useEffect(() => {
+        if (!user)
+            setPostsState(prevState => ({ ...prevState, postsVotes: [] }))
+    }, [user])
 
     return {
         postsState,
