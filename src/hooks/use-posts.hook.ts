@@ -9,6 +9,7 @@ import {
     writeBatch,
 } from 'firebase/firestore'
 import { deleteObject, ref } from 'firebase/storage'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
@@ -24,6 +25,7 @@ const usePosts = () => {
     const [user] = useAuthState(auth)
     const [votesIsLoading, setVotesIsLoading] = useState<boolean>(false)
     const setAuthModalState = useSetRecoilState(authModalStateAtom)
+    const router = useRouter()
 
     const getCommunityVotes = async (communityID: string) => {
         if (!user) return
@@ -181,7 +183,10 @@ const usePosts = () => {
             return false
         }
     }
-    const handleSelectPost = () => {}
+    const handleSelectPost = (post: TPost) => {
+        setPostsState(prevState => ({ ...prevState, selectedPost: post }))
+        router.push(`/r/${post.communityID}/comments/${post.ID}`)
+    }
 
     useEffect(() => {
         if (!currentCommunity || !user) return
@@ -194,6 +199,7 @@ const usePosts = () => {
     }, [user])
 
     return {
+        handleSelectPost,
         postsState,
         setPostsState,
         handleDeletePost,
