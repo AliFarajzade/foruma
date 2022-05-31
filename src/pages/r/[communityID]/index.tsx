@@ -7,7 +7,7 @@ import AboutCommunity from '../../../components/community/about-community.compon
 import CommunityHeader from '../../../components/community/community-header.component'
 import CreatePostLink from '../../../components/community/create-post-link.component'
 import CommunityPageLayout from '../../../components/layout/community-layout.component'
-import CommunityNotFound from '../../../components/not-found/no-community.component'
+import NotFound from '../../../components/not-found/not-found.component'
 import Posts from '../../../components/post/posts.component'
 import { firestore } from '../../../firebase/config.firebase'
 import communitySnippetStateAtom from '../../../recoil/atoms/community.atom'
@@ -67,7 +67,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
                 ...prevState,
                 currentCommunity: communityData,
             }))
-    }, [])
+    }, [communityData, setCommunitySnippetState])
 
     return communityData ? (
         <>
@@ -83,7 +83,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             </CommunityPageLayout>
         </>
     ) : (
-        <CommunityNotFound />
+        <NotFound message="Sorry, this community may not exist or has been banned." />
     )
 }
 
