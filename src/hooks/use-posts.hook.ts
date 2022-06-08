@@ -139,14 +139,22 @@ const usePosts = () => {
             ...updatedPost,
             voteStatus: updatedPost.voteStatus + finalVote,
         }
+
         updatedPosts[postIndex] = { ...updatedPost }
 
         // Update state.
         setPostsState(prevState => ({
             ...prevState,
-            posts: updatedPosts,
-            postsVotes: updatedPostsVotes,
+            selectedPost: updatedPost,
         }))
+
+        if (postsState.selectedPost) {
+            setPostsState(prevState => ({
+                ...prevState,
+                posts: updatedPosts,
+                postsVotes: updatedPostsVotes,
+            }))
+        }
 
         try {
             // Batch commit
