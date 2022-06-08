@@ -9,6 +9,7 @@ import {
     Text,
 } from '@chakra-ui/react'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { AiOutlineDelete } from 'react-icons/ai'
@@ -22,6 +23,8 @@ import {
     IoBookmarkOutline,
 } from 'react-icons/io5'
 import ReactPlayer from 'react-player/lazy'
+import { useSetRecoilState } from 'recoil'
+import postsStateAtom from '../../recoil/atoms/post.atom'
 import { TPost } from '../../types/post.types'
 
 interface IProps {
@@ -35,6 +38,7 @@ interface IProps {
         communityID: string
     ) => Promise<void>
     votesIsLoading: boolean
+    handleSelectPost?: (post: TPost) => void
 }
 
 const PostItem: React.FC<IProps> = ({
@@ -44,11 +48,16 @@ const PostItem: React.FC<IProps> = ({
     handleDeletePost,
     handlePostVote,
     votesIsLoading,
+    handleSelectPost,
 }) => {
     const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
         !!(post.mediaType === 'image')
     )
+
+    const setPostsState = useSetRecoilState(postsStateAtom)
+
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
+    const router = useRouter()
 
     const deletePost = async () => {
         setIsDeleting(true)
@@ -63,13 +72,15 @@ const PostItem: React.FC<IProps> = ({
         setIsDeleting(false)
     }
 
+    const singlePostPage = !handleSelectPost
+
     return (
         <Flex
             overflow="hidden"
-            border="1px red"
-            borderColor="gray.300"
-            borderRadius={4}
-            _hover={{ borderColor: 'gray.500' }}
+            border="1px solid"
+            borderColor={singlePostPage ? 'white' : 'gray.300'}
+            borderRadius={singlePostPage ? '4px 4px 0 0' : 4}
+            _hover={{ borderColor: singlePostPage ? 'none' : 'gray.500' }}
             bg="white"
         >
             {votesIsLoading ? (
@@ -78,7 +89,7 @@ const PostItem: React.FC<IProps> = ({
                 <Flex
                     direction="column"
                     align="center"
-                    bg="gray.100"
+                    bg={singlePostPage ? 'none' : 'gray.100'}
                     p={2}
                     gap="1"
                     width="45px"
@@ -146,7 +157,14 @@ const PostItem: React.FC<IProps> = ({
                     </Stack>
 
                     <Stack pb="4">
-                        <Text fontSize="13pt" fontWeight="600">
+                        <Text
+                            onClick={() =>
+                                handleSelectPost && handleSelectPost(post)
+                            }
+                            cursor="pointer"
+                            fontSize="13pt"
+                            fontWeight="600"
+                        >
                             {post.title}
                         </Text>
                         <Text fontSize="11pt">{post.description}</Text>
@@ -165,6 +183,10 @@ const PostItem: React.FC<IProps> = ({
                             }
                             borderColor="gray.200"
                             borderRadius="3px"
+                            onClick={() =>
+                                handleSelectPost && handleSelectPost(post)
+                            }
+                            cursor="pointer"
                         >
                             {post.mediaType === 'video' && (
                                 <ReactPlayer
@@ -191,7 +213,14 @@ const PostItem: React.FC<IProps> = ({
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
                     >
-                        <Icon as={BsChat} mr="2" />
+                        <Icon
+                            as={BsChat}
+                            mr="2"
+                            onClick={() =>
+                                handleSelectPost && handleSelectPost(post)
+                            }
+                            cursor="pointer"
+                        />
                         <Text fontSize="9pt">{post.numberOfComments}</Text>
                     </Flex>
                     <Flex
@@ -224,6 +253,13 @@ const PostItem: React.FC<IProps> = ({
                             onClick={() => {
                                 if (isDeleting) return
                                 deletePost()
+                                if (singlePostPage) {
+                                    setPostsState(prevState => ({
+                                        ...prevState,
+                                        selectedPost: null,
+                                    }))
+                                    router.push(`/r/${post.communityID}`)
+                                }
                             }}
                         >
                             {isDeleting ? (
