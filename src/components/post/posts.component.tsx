@@ -5,7 +5,7 @@ import {
     limit,
     orderBy,
     query,
-    where
+    where,
 } from 'firebase/firestore'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -25,8 +25,14 @@ const Posts: React.FC = () => {
 
     const { query: routeQuery } = useRouter()
 
-    const { postsState, setPostsState, handleDeletePost, handlePostVote, votesIsLoading } =
-        usePosts()
+    const {
+        postsState,
+        setPostsState,
+        handleDeletePost,
+        handlePostVote,
+        votesIsLoading,
+        handleSelectPost,
+    } = usePosts()
 
     const getPosts = async () => {
         setIsLoading(true)
@@ -80,6 +86,7 @@ const Posts: React.FC = () => {
                         handleDeletePost={handleDeletePost}
                         handlePostVote={handlePostVote}
                         votesIsLoading={votesIsLoading}
+                        handleSelectPost={handleSelectPost}
                     />
                 ))
             ) : (
