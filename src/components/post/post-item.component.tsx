@@ -183,6 +183,10 @@ const PostItem: React.FC<IProps> = ({
                             }
                             borderColor="gray.200"
                             borderRadius="3px"
+                            onClick={() =>
+                                handleSelectPost && handleSelectPost(post)
+                            }
+                            cursor="pointer"
                         >
                             {post.mediaType === 'video' && (
                                 <ReactPlayer
