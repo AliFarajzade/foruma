@@ -1,10 +1,12 @@
 import {
     collection,
     doc,
+    getDoc,
     getDocs,
     increment,
     writeBatch,
 } from 'firebase/firestore'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
@@ -15,6 +17,10 @@ import communitySnippetStateAtom from '../recoil/atoms/community.atom'
 import { TCommunity, TCommunitySnippet } from '../types/community.types'
 
 const useCommunityData = () => {
+    const {
+        query: { communityID },
+    } = useRouter()
+
     const [user] = useAuthState(auth)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -24,6 +30,30 @@ const useCommunityData = () => {
     )
 
     const [, setModalState] = useRecoilState(authModalStateAtom)
+
+    const getCommunityData = useCallback(
+        async (communityID: string) => {
+            console.log('Hey')
+            const communityRef = doc(firestore, 'communities', communityID)
+            try {
+                const communitySnap = await getDoc(communityRef)
+
+                if (communitySnap.exists()) {
+                    setCommunityState(prevState => ({
+                        ...prevState,
+                        currentCommunity: {
+                            id: communitySnap.id,
+                            ...communitySnap.data(),
+                        } as TCommunity,
+                    }))
+                }
+            } catch (error) {
+                toast.error('Cannot get community data.')
+                console.log(error)
+            }
+        },
+        [setCommunityState]
+    )
 
     const joinCommunity = async (communityData: TCommunity) => {
         setIsLoading(true)
@@ -157,6 +187,11 @@ const useCommunityData = () => {
             }))
         } else getUsersCommunitySnippets()
     }, [user, getUsersCommunitySnippets])
+
+    useEffect(() => {
+        if (!communityState.currentCommunity && communityID)
+            getCommunityData(communityID as string)
+    }, [communityID, communityState.currentCommunity, getCommunityData])
 
     return {
         isLoading,
