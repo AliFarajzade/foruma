@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
+import Comments from '../../../../../components/comments/comments.component'
 import AboutCommunity from '../../../../../components/community/about-community.component'
 import CommunityPageLayout from '../../../../../components/layout/community-layout.component'
 import NotFound from '../../../../../components/not-found/not-found.component'
@@ -27,7 +28,10 @@ const PostPage: NextPage = () => {
 
     const [loading, setLoading] = useState<boolean>(true)
 
-    const { pid } = useRouter().query as { pid: string }
+    const { pid, communityID } = useRouter().query as {
+        pid: string
+        communityID: string
+    }
 
     const [user] = useAuthState(auth)
 
@@ -93,7 +97,11 @@ const PostPage: NextPage = () => {
                     votesIsLoading={votesIsLoading}
                 />
 
-                {/* <Comments /> */}
+                <Comments
+                    communityID={communityID}
+                    selectedPost={postsState.selectedPost}
+                    user={user}
+                />
             </>
             <>
                 {communityState.currentCommunity && (
