@@ -72,7 +72,7 @@ const PostPage: NextPage = () => {
     return loading ? (
         <CommunityPageLayout>
             <PostSkeleton />
-            <></>
+            <PostSkeleton />
         </CommunityPageLayout>
     ) : postsState.selectedPost ? (
         <CommunityPageLayout>
