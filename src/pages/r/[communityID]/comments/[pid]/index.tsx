@@ -23,12 +23,13 @@ const PostPage: NextPage = () => {
 
     const [loading, setLoading] = useState<boolean>(true)
 
-    const { pid } = useRouter().query
+    const { pid } = useRouter().query as { pid: string }
 
     const [user] = useAuthState(auth)
 
     const getPost = useCallback(async () => {
-        const postRef = doc(firestore, 'posts', pid as string)
+        if (!pid) return
+        const postRef = doc(firestore, 'posts', pid)
         try {
             console.log('getPost()')
 
