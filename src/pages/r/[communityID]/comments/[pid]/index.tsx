@@ -4,11 +4,13 @@ import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
+import AboutCommunity from '../../../../../components/community/about-community.component'
 import CommunityPageLayout from '../../../../../components/layout/community-layout.component'
 import NotFound from '../../../../../components/not-found/not-found.component'
 import PostItem from '../../../../../components/post/post-item.component'
 import PostSkeleton from '../../../../../components/post/post-skeleton.component'
 import { auth, firestore } from '../../../../../firebase/config.firebase'
+import useCommunityData from '../../../../../hooks/use-community-data.hook'
 import usePosts from '../../../../../hooks/use-posts.hook'
 import { TPost } from '../../../../../types/post.types'
 
@@ -20,6 +22,8 @@ const PostPage: NextPage = () => {
         handlePostVote,
         votesIsLoading,
     } = usePosts()
+
+    const { communityState } = useCommunityData()
 
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -91,7 +95,13 @@ const PostPage: NextPage = () => {
 
                 {/* <Comments /> */}
             </>
-            <>{/* About */}</>
+            <>
+                {communityState.currentCommunity && (
+                    <AboutCommunity
+                        currentCommunity={communityState.currentCommunity}
+                    />
+                )}
+            </>
         </CommunityPageLayout>
     ) : (
         <NotFound message="This post is either deleted or does not exists." />
