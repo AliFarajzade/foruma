@@ -58,7 +58,7 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
         try {
             await batch.commit()
 
-            newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp
+            newComment.createdAt = { seconds: Date.now() } as Timestamp
 
             setComment('')
             setComments(prevState => [newComment, ...prevState])
