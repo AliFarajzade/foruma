@@ -186,7 +186,7 @@ const useCommunityData = () => {
                 mySnippets: [],
             }))
         } else getUsersCommunitySnippets()
-    }, [user, getUsersCommunitySnippets])
+    }, [user, getUsersCommunitySnippets, setCommunityState])
 
     useEffect(() => {
         if (!communityState.currentCommunity && communityID)
