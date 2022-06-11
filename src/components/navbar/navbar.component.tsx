@@ -3,13 +3,17 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
+import { useResetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
+import directoryMenuStateAtom from '../../recoil/atoms/directory.atom'
 import RightContent from '../right-content/right-content.component'
 import SearchInput from '../search-input/search-input.component'
 import Directory from './directory.component'
 
 const Navbar: React.FC = () => {
     const [user, loading, error] = useAuthState(auth)
+
+    const resetDirectoryState = useResetRecoilState(directoryMenuStateAtom)
 
     const router = useRouter()
 
@@ -26,7 +30,10 @@ const Navbar: React.FC = () => {
             cursor="pointer"
         >
             <Flex
-                onClick={() => router.push('/', '/', { scroll: true })}
+                onClick={() => {
+                    router.push('/', '/', { scroll: true })
+                    resetDirectoryState()
+                }}
                 align="center"
                 width={{ base: '40px', sm: '40px', md: 'auto' }}
                 mr={{ base: 1 }}
