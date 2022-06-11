@@ -8,17 +8,22 @@ import {
     where,
 } from 'firebase/firestore'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { v4 as uuid } from 'uuid'
 import { auth, firestore } from '../../firebase/config.firebase'
 import usePosts from '../../hooks/use-posts.hook'
+import { TCommunity } from '../../types/community.types'
 import { TPost } from '../../types/post.types'
 import NoPosts from './no-posts.component'
 import PostItem from './post-item.component'
 import PostSkeleton from './post-skeleton.component'
 
-const Posts: React.FC = () => {
+interface IProps {
+    communityData: TCommunity
+}
+
+const Posts: React.FC<IProps> = ({ communityData }) => {
     const [user] = useAuthState(auth)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -34,7 +39,7 @@ const Posts: React.FC = () => {
         handleSelectPost,
     } = usePosts()
 
-    const getPosts = async () => {
+    const getPosts = useCallback(async () => {
         setIsLoading(true)
         const postsRef = collection(firestore, 'posts')
 
@@ -60,11 +65,11 @@ const Posts: React.FC = () => {
         }
 
         setIsLoading(false)
-    }
+    }, [routeQuery.communityID, setPostsState])
 
     useEffect(() => {
         getPosts()
-    }, [])
+    }, [communityData, getPosts])
 
     return (
         <Stack spacing={2}>

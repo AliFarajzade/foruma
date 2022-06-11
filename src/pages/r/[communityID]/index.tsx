@@ -75,7 +75,7 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             <CommunityPageLayout>
                 <>
                     <CreatePostLink />
-                    <Posts />
+                    <Posts communityData={communityData} />
                 </>
                 <>
                     <AboutCommunity currentCommunity={communityData} />
