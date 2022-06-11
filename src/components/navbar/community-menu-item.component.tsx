@@ -1,23 +1,15 @@
 import { Flex, Icon, Img, MenuItem } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import { IconType } from 'react-icons/lib'
+import useDirectory from '../../hooks/use-directory.hook'
+import { TDirectoryMenuItem } from '../../types/directory.types'
 
-interface IProps {
-    name: string
-    link: string
-    imageURL?: string
-    icon: IconType
-    iconColor: string
-}
-
-const CommunityMenuItem: React.FC<IProps> = ({
+const CommunityMenuItem: React.FC<TDirectoryMenuItem> = ({
     icon,
     iconColor,
     link,
     name,
     imageURL,
 }) => {
-    const router = useRouter()
+    const { selectCommunity } = useDirectory()
 
     return (
         <MenuItem
@@ -25,7 +17,15 @@ const CommunityMenuItem: React.FC<IProps> = ({
             fontSize="11pt"
             fontWeight={700}
             _hover={{ bg: 'gray.100' }}
-            onClick={() => router.push(link)}
+            onClick={() =>
+                selectCommunity({
+                    icon,
+                    iconColor,
+                    link,
+                    name,
+                    imageURL,
+                })
+            }
         >
             <Flex align="center">
                 {imageURL ? (
