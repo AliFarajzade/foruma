@@ -9,7 +9,7 @@ import { TComment } from '../../types/comment.types'
 
 interface IProps {
     comment: TComment
-    handleDeleteComment: (commentID: string) => void
+    handleDeleteComment: (commentID: string, postID: string) => void
     loadingDelete: boolean
     userID: string | undefined
 }
@@ -57,7 +57,12 @@ const CommentItem: React.FC<IProps> = ({
                             <Text
                                 fontSize="10pt"
                                 _hover={{ color: 'blue.500' }}
-                                onClick={() => handleDeleteComment(comment.ID)}
+                                onClick={() =>
+                                    handleDeleteComment(
+                                        comment.ID,
+                                        comment.postID
+                                    )
+                                }
                             >
                                 Delete
                             </Text>
