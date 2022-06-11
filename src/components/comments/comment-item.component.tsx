@@ -20,7 +20,6 @@ const CommentItem: React.FC<IProps> = ({
     handleDeleteComment,
     loadingDelete,
 }) => {
-    console.log(comment)
     return (
         <Flex>
             <Box mr={2}>
@@ -32,7 +31,9 @@ const CommentItem: React.FC<IProps> = ({
                         {comment.creatorDisplayName}
                     </Text>
                     <Text fontSize="10pt" color="gray.600">
-                        {moment(new Date(comment.createdAt.seconds)).fromNow()}
+                        {moment(
+                            new Date(comment.createdAt.seconds * 1000)
+                        ).fromNow()}
                     </Text>
                 </Stack>
                 <Text fontSize="11pt">{comment.comment}</Text>
