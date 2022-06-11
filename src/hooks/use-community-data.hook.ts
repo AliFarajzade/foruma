@@ -33,7 +33,6 @@ const useCommunityData = () => {
 
     const getCommunityData = useCallback(
         async (communityID: string) => {
-            console.log('Hey')
             const communityRef = doc(firestore, 'communities', communityID)
             try {
                 const communitySnap = await getDoc(communityRef)
