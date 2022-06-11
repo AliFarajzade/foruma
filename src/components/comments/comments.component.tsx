@@ -23,7 +23,7 @@ import postsStateAtom from '../../recoil/atoms/post.atom'
 import { TComment } from '../../types/comment.types'
 import { TPost } from '../../types/post.types'
 import CommentInput from './comment-input.component'
-import CommentItem from './comment.-item.component'
+import CommentItem from './comment-item.component'
 
 interface IProps {
     user: User | undefined | null
