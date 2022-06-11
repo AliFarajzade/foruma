@@ -53,11 +53,46 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const [page, setPage] = useState<number>(1)
     const [isEmpty, setIsEmpty] = useState<boolean>(false)
 
-    const memoedSnap = useMemo(() => lastSnap, [page])
+    const memoedSnap = useMemo(
+        () => lastSnap,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [page]
+    )
 
     const setPostState = useSetRecoilState(postsStateAtom)
 
-    const handleDeleteComment = async (commentData: any) => {}
+    const handleDeleteComment = async (commentID: string, postID: string) => {
+        const batch = writeBatch(firestore)
+        const commentRef = doc(firestore, 'comments', commentID)
+        const postRef = doc(firestore, 'posts', postID)
+
+        // 1) Delete a comments document
+        batch.delete(commentRef)
+        // 2) Update post numberOfComments
+        batch.update(postRef, { numberOfComments: increment(-1) })
+
+        try {
+            await batch.commit()
+
+            // 3) Update recoil state
+            setPostState(prevState => ({
+                ...prevState,
+                selectedPost: {
+                    ...prevState.selectedPost,
+                    numberOfComments:
+                        prevState.selectedPost!.numberOfComments - 1,
+                } as TPost,
+            }))
+
+            // 4) Update comments state
+            setComments(prevState =>
+                prevState.filter(comment => comment.ID !== commentID)
+            )
+        } catch (error) {
+            toast.error('Cannot delete comment at the moment.')
+            console.log(error)
+        }
+    }
     const handleCreateComment = async () => {
         if (!user) return
         setCreateLoading(true)
