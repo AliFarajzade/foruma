@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Flex,
     SkeletonCircle,
     SkeletonText,
@@ -10,16 +11,20 @@ import { User } from 'firebase/auth'
 import {
     collection,
     doc,
+    DocumentData,
     getDocs,
     increment,
+    limit,
     orderBy,
     query,
+    QueryDocumentSnapshot,
     serverTimestamp,
+    startAfter,
     Timestamp,
     where,
     writeBatch,
 } from 'firebase/firestore'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
 import { firestore } from '../../firebase/config.firebase'
@@ -35,12 +40,21 @@ interface IProps {
     communityID: string
 }
 
+const LIMIT = 3
+
 const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const [comment, setComment] = useState<string>('')
     const [comments, setComments] = useState<TComment[]>([])
     const [fetchLoading, setFetchLoading] = useState<boolean>(true)
     const [createLoading, setCreateLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+    const [lastSnap, setLastSnap] =
+        useState<QueryDocumentSnapshot<DocumentData> | null>(null)
+    const [page, setPage] = useState<number>(1)
+    const [isEmpty, setIsEmpty] = useState<boolean>(false)
+
+    const memoedSnap = useMemo(() => lastSnap, [page])
+
     const setPostState = useSetRecoilState(postsStateAtom)
 
     const handleDeleteComment = async (commentData: any) => {}
@@ -94,29 +108,44 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     }
     const getComments = useCallback(async () => {
         const commentsRef = collection(firestore, 'comments')
-        const commentsQuery = query(
-            commentsRef,
-            where('postID', '==', selectedPost.ID),
-            orderBy('createdAt', 'desc')
-        )
+        let commentsQuery
+
+        if (memoedSnap)
+            commentsQuery = query(
+                commentsRef,
+                limit(LIMIT),
+                where('postID', '==', selectedPost.ID),
+                orderBy('createdAt', 'desc'),
+                startAfter(memoedSnap)
+            )
+        else
+            commentsQuery = query(
+                commentsRef,
+                limit(LIMIT),
+                where('postID', '==', selectedPost.ID),
+                orderBy('createdAt', 'desc')
+            )
 
         try {
             const commentsSnap = await getDocs(commentsQuery)
+
+            setIsEmpty(commentsSnap.empty)
+
             const fetchedComments = commentsSnap.docs.map(docSnap => ({
                 ID: docSnap.id,
                 ...docSnap.data(),
             })) as TComment[]
-            console.log(fetchedComments)
-            setComments(prevState => [...fetchedComments, ...prevState])
+            setComments(prevState => [...prevState, ...fetchedComments])
+            setLastSnap(commentsSnap.docs[commentsSnap.docs.length - 1])
         } catch (error) {
             console.log(error)
         }
         setFetchLoading(false)
-    }, [selectedPost.ID])
+    }, [selectedPost.ID, memoedSnap])
 
     useEffect(() => {
         getComments()
-    }, [getComments])
+    }, [getComments, page])
 
     return (
         <Box bg="white" borderRadius="4px" p={2}>
@@ -176,6 +205,17 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
                     </>
                 )}
             </Stack>
+            <Box mx="auto" textAlign="center" pt="10" pb="5">
+                <Button
+                    disabled={isEmpty || !comments.length}
+                    onClick={() => setPage(prevState => prevState + 1)}
+                    variant="outline"
+                >
+                    {isEmpty || !comments.length
+                        ? 'No more comments'
+                        : 'Load more comments'}
+                </Button>
+            </Box>
         </Box>
     )
 }
