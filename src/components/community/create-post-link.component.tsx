@@ -5,14 +5,18 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsLink45Deg } from 'react-icons/bs'
 import { FaReddit } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
 import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
+import directoryMenuStateAtom from '../../recoil/atoms/directory.atom'
 
 const CreatePostLink: React.FC = () => {
     const router = useRouter()
     const [user] = useAuthState(auth)
     const setAuthModalState = useSetRecoilState(authModalStateAtom)
+    const [directoryState, setDirectoryState] = useRecoilState(
+        directoryMenuStateAtom
+    )
 
     const handleChangeRoute = () => {
         if (!user) {
@@ -22,8 +26,18 @@ const CreatePostLink: React.FC = () => {
                 view: 'logIn',
             }))
         } else {
-            const { communityID } = router.query
-            router.push(`/r/${communityID}/submit`)
+            if (
+                !directoryState.selectedMenuItem ||
+                directoryState.selectedMenuItem.name === 'Home'
+            )
+                setDirectoryState(prevState => ({
+                    ...prevState,
+                    isOpen: true,
+                }))
+            else {
+                const { communityID } = router.query
+                router.push(`/r/${communityID}/submit`)
+            }
         }
     }
     return (
