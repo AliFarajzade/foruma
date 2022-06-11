@@ -10,12 +10,16 @@ import { User } from 'firebase/auth'
 import {
     collection,
     doc,
+    getDocs,
     increment,
+    orderBy,
+    query,
     serverTimestamp,
     Timestamp,
+    where,
     writeBatch,
 } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
 import { firestore } from '../../firebase/config.firebase'
@@ -34,7 +38,7 @@ interface IProps {
 const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const [comment, setComment] = useState<string>('')
     const [comments, setComments] = useState<TComment[]>([])
-    const [fetchLoading, setFetchLoading] = useState<boolean>(false)
+    const [fetchLoading, setFetchLoading] = useState<boolean>(true)
     const [createLoading, setCreateLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const setPostState = useSetRecoilState(postsStateAtom)
@@ -88,11 +92,31 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
 
         setCreateLoading(false)
     }
-    const getComments = async () => {}
+    const getComments = useCallback(async () => {
+        const commentsRef = collection(firestore, 'comments')
+        const commentsQuery = query(
+            commentsRef,
+            where('postID', '==', selectedPost.ID),
+            orderBy('createdAt', 'desc')
+        )
+
+        try {
+            const commentsSnap = await getDocs(commentsQuery)
+            const fetchedComments = commentsSnap.docs.map(docSnap => ({
+                ID: docSnap.id,
+                ...docSnap.data(),
+            })) as TComment[]
+            console.log(fetchedComments)
+            setComments(prevState => [...fetchedComments, ...prevState])
+        } catch (error) {
+            console.log(error)
+        }
+        setFetchLoading(false)
+    }, [selectedPost.ID])
 
     useEffect(() => {
         getComments()
-    }, [])
+    }, [getComments])
 
     return (
         <Box bg="white" borderRadius="4px" p={2}>
