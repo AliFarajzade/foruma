@@ -32,7 +32,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs'
 import { HiLockClosed } from 'react-icons/hi'
+import { useSetRecoilState } from 'recoil'
 import { auth, firestore } from '../../../firebase/config.firebase'
+import communitySnippetStateAtom from '../../../recoil/atoms/community.atom'
 
 const allowedCharsRegex = /^[a-zA-Z]+$/
 
@@ -51,6 +53,8 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isSubmtting, setIsSubmitting] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
+
+    const setCommunityState = useSetRecoilState(communitySnippetStateAtom)
 
     const canCreate =
         isMoreThanThree && !alreadyExists && !isLoading ? true : false
@@ -133,6 +137,13 @@ const CreateCommunityModal: React.FC<TProps> = ({ isOpen, setIsOpen }) => {
             setIsSubmitting(true)
             await batch.commit()
             setIsOpen(false)
+            setCommunityState(prevState => ({
+                ...prevState,
+                mySnippets: [
+                    { isModerator: true, communityID: communityName },
+                    ...prevState.mySnippets,
+                ],
+            }))
             toast.success('Community created 🚀️')
         } catch (error: any) {
             toast.error('Something went wrong.')
