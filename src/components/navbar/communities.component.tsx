@@ -80,7 +80,7 @@ const Communities: React.FC = () => {
                               icon={FaReddit}
                               iconColor="blue.500"
                               link={`/r/${snippet.communityID}`}
-                              name={`/r/${snippet.communityID}`}
+                              name={snippet.communityID}
                               imageURL={snippet.imageURL}
                           />
                       ))}
