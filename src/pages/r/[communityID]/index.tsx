@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore'
 import { GetServerSidePropsContext, NextPage } from 'next'
 import { useEffect } from 'react'
+import { FaReddit } from 'react-icons/fa'
 import { useSetRecoilState } from 'recoil'
 import safeJsonStringify from 'safe-json-stringify'
 import AboutCommunity from '../../../components/community/about-community.component'
@@ -11,6 +12,7 @@ import NotFound from '../../../components/not-found/not-found.component'
 import Posts from '../../../components/post/posts.component'
 import { firestore } from '../../../firebase/config.firebase'
 import communitySnippetStateAtom from '../../../recoil/atoms/community.atom'
+import directoryMenuStateAtom from '../../../recoil/atoms/directory.atom'
 import { TCommunity } from '../../../types/community.types'
 
 interface IProps {
@@ -60,13 +62,25 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
     const setCommunitySnippetState = useSetRecoilState(
         communitySnippetStateAtom
     )
+    const setDirectoryState = useSetRecoilState(directoryMenuStateAtom)
 
     useEffect(() => {
-        if (communityData)
+        if (communityData) {
             setCommunitySnippetState(prevState => ({
                 ...prevState,
                 currentCommunity: communityData,
             }))
+            setDirectoryState(prevState => ({
+                ...prevState,
+                selectedMenuItem: {
+                    icon: FaReddit,
+                    iconColor: 'blue.500',
+                    link: `/r/${communityData.id}`,
+                    name: communityData.id,
+                    imageURL: communityData.imageURL,
+                },
+            }))
+        }
     }, [communityData, setCommunitySnippetState])
 
     return communityData ? (
