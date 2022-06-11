@@ -1,4 +1,11 @@
-import { Box, Flex } from '@chakra-ui/react'
+import {
+    Box,
+    Flex,
+    SkeletonCircle,
+    SkeletonText,
+    Stack,
+    Text,
+} from '@chakra-ui/react'
 import { User } from 'firebase/auth'
 import {
     collection,
@@ -16,6 +23,7 @@ import postsStateAtom from '../../recoil/atoms/post.atom'
 import { TComment } from '../../types/comment.types'
 import { TPost } from '../../types/post.types'
 import CommentInput from './comment-input.component'
+import CommentItem from './comment.-item.component'
 
 interface IProps {
     user: User | undefined | null
@@ -28,6 +36,7 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const [comments, setComments] = useState<TComment[]>([])
     const [fetchLoading, setFetchLoading] = useState<boolean>(false)
     const [createLoading, setCreateLoading] = useState<boolean>(false)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
     const setPostState = useSetRecoilState(postsStateAtom)
 
     const handleDeleteComment = async (commentData: any) => {}
@@ -103,6 +112,46 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
                     handleCreateComment={handleCreateComment}
                 />
             </Flex>
+            <Stack spacing={6} px={4} py={2}>
+                {fetchLoading ? (
+                    <>
+                        {[1, 2, 3].map(key => (
+                            <Box key={key}>
+                                <SkeletonCircle size="10" />
+                                <SkeletonText
+                                    mt="4"
+                                    noOfLines={2}
+                                    spacing={4}
+                                />
+                            </Box>
+                        ))}
+                    </>
+                ) : comments.length === 0 ? (
+                    <Flex
+                        justify="center"
+                        align="center"
+                        borderTop="1px solid"
+                        borderColor="gray.200"
+                        p={20}
+                    >
+                        <Text fontWeight={700} opacity="0.4">
+                            No Comments Yet.
+                        </Text>
+                    </Flex>
+                ) : (
+                    <>
+                        {comments.map(comment => (
+                            <CommentItem
+                                comment={comment}
+                                handleDeleteComment={handleDeleteComment}
+                                loadingDelete={deleteLoading}
+                                key={comment.ID}
+                                userID={user?.uid}
+                            />
+                        ))}
+                    </>
+                )}
+            </Stack>
         </Box>
     )
 }
