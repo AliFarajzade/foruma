@@ -57,12 +57,13 @@ const CommentItem: React.FC<IProps> = ({
                             <Text
                                 fontSize="10pt"
                                 _hover={{ color: 'blue.500' }}
-                                onClick={() =>
+                                onClick={() => {
+                                    if (loadingDelete) return
                                     handleDeleteComment(
                                         comment.ID,
                                         comment.postID
                                     )
-                                }
+                                }}
                             >
                                 Delete
                             </Text>

@@ -62,6 +62,7 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const setPostState = useSetRecoilState(postsStateAtom)
 
     const handleDeleteComment = async (commentID: string, postID: string) => {
+        setDeleteLoading(true)
         const batch = writeBatch(firestore)
         const commentRef = doc(firestore, 'comments', commentID)
         const postRef = doc(firestore, 'posts', postID)
@@ -92,6 +93,7 @@ const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
             toast.error('Cannot delete comment at the moment.')
             console.log(error)
         }
+        setDeleteLoading(false)
     }
     const handleCreateComment = async () => {
         if (!user) return
