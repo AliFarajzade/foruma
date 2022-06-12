@@ -246,16 +246,14 @@ const PostItem: React.FC<IProps> = ({
                         borderRadius={4}
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
+                        onClick={() => {
+                            handleSelectPost && handleSelectPost(post)
+                            router.push(
+                                `/r/${post.communityID}/comments/${post.ID}`
+                            )
+                        }}
                     >
-                        <Icon
-                            as={BsChat}
-                            mr="2"
-                            onClick={() => {
-                                handleSelectPost && handleSelectPost(post)
-                                router.push(`/r/${post.communityID}`)
-                            }}
-                            cursor="pointer"
-                        />
+                        <Icon as={BsChat} mr="2" cursor="pointer" />
                         <Text fontSize="9pt">{post.numberOfComments}</Text>
                     </Flex>
                     <Flex
