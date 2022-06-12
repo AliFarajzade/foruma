@@ -49,7 +49,7 @@ const Posts: React.FC<IProps> = ({ communityData }) => {
             postsRef,
             where('communityID', '==', routeQuery.communityID),
             orderBy('createdAt', 'desc'),
-            limit(10)
+            limit(20)
         )
 
         try {

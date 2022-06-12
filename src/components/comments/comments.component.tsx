@@ -40,7 +40,7 @@ interface IProps {
     communityID: string
 }
 
-const LIMIT = 3
+const LIMIT = 10
 
 const Comments: React.FC<IProps> = ({ communityID, selectedPost, user }) => {
     const [comment, setComment] = useState<string>('')
