@@ -25,7 +25,7 @@ import { TPost, TPostVote } from '../types/post.types'
 
 export const getServerSideProps = async () => {
     const postsRef = collection(firestore, 'posts')
-    const postsQuery = query(postsRef, orderBy('voteStatus', 'desc'), limit(2))
+    const postsQuery = query(postsRef, orderBy('voteStatus', 'desc'), limit(20))
 
     try {
         const postsSnap = await getDocs(postsQuery)
@@ -59,10 +59,6 @@ interface IProps {
 }
 
 const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
-    // 1) Get posts votes
-
-    // 2) Get new posts + pagination
-
     const {
         setPostsState,
         postsState,
@@ -125,7 +121,7 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     useEffect(() => {
         if (user && postsState.posts.length !== 0) getPostsVotes()
     }, [user, postsState.posts])
-
+    // TODO: Add slider
     return (
         <CommunityPageLayout>
             <Stack spacing={6}>
@@ -144,7 +140,6 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
                             }
                             handleDeletePost={handleDeletePost}
                             handlePostVote={handlePostVote}
-                            // TODO: FIX
                             votesIsLoading={votesIsLoading}
                             handleSelectPost={handleSelectPost}
                         />
