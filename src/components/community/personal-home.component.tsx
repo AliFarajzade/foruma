@@ -1,8 +1,15 @@
 import { Button, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaReddit } from 'react-icons/fa'
+import { useSetRecoilState } from 'recoil'
+import { auth } from '../../firebase/config.firebase'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const PersonalHome: React.FC = () => {
+    const [user] = useAuthState(auth)
+
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
     return (
         <Flex
             direction="column"
@@ -38,8 +45,31 @@ const PersonalHome: React.FC = () => {
                     <Text fontSize="9pt">
                         Your personal Reddit frontpage, built for you.
                     </Text>
-                    <Button height="30px">Create Post</Button>
-                    <Button variant="outline" height="30px">
+                    <Button
+                        onClick={() => {
+                            if (!user)
+                                setAuthModalState(prevState => ({
+                                    ...prevState,
+                                    open: true,
+                                    view: 'logIn',
+                                }))
+                        }}
+                        height="30px"
+                    >
+                        Create Post
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            if (!user)
+                                setAuthModalState(prevState => ({
+                                    ...prevState,
+                                    open: true,
+                                    view: 'logIn',
+                                }))
+                        }}
+                        variant="outline"
+                        height="30px"
+                    >
                         Create Community
                     </Button>
                 </Stack>

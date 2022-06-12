@@ -1,8 +1,16 @@
 import { Button, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { GiCheckedShield } from 'react-icons/gi'
+import { useSetRecoilState } from 'recoil'
+import { auth } from '../../firebase/config.firebase'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 
 const Premium: React.FC = () => {
+    const [user] = useAuthState(auth)
+
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
+
     return (
         <Flex
             direction="column"
@@ -25,7 +33,18 @@ const Premium: React.FC = () => {
                     <Text>The best Reddit experience, with monthly Coins</Text>
                 </Stack>
             </Flex>
-            <Button height="30px" bg="brand.primary">
+            <Button
+                onClick={() => {
+                    if (!user)
+                        setAuthModalState(prevState => ({
+                            ...prevState,
+                            open: true,
+                            view: 'logIn',
+                        }))
+                }}
+                height="30px"
+                bg="brand.primary"
+            >
                 Try Now
             </Button>
         </Flex>
