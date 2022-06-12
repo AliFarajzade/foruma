@@ -43,7 +43,11 @@ const formTabs = [
     },
 ]
 
-const NewPostForm: React.FC = () => {
+interface IProps {
+    communityImageURL: string | undefined
+}
+
+const NewPostForm: React.FC<IProps> = ({ communityImageURL }) => {
     const [selectedTab, setSelectedTab] = useState<string>(formTabs[0].title)
     const [formData, setFormData] = useState<{
         title: string
@@ -91,6 +95,8 @@ const NewPostForm: React.FC = () => {
             numberOfComments: 0,
             voteStatus: 0,
         }
+
+        if (communityImageURL) newPost.communityImageURL = communityImageURL
 
         const postRef = collection(firestore, `posts`)
 
