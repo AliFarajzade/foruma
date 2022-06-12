@@ -168,6 +168,7 @@ const useCommunityData = () => {
             setCommunityState(prevState => ({
                 ...prevState,
                 mySnippets: data,
+                fetchedSnippets: true,
             }))
         } catch (error) {
             toast.error('Error getting users communities, please refresh.')
@@ -183,6 +184,7 @@ const useCommunityData = () => {
             setCommunityState(prevState => ({
                 ...prevState,
                 mySnippets: [],
+                fetchedSnippets: false,
             }))
         } else getUsersCommunitySnippets()
     }, [user, getUsersCommunitySnippets, setCommunityState])
