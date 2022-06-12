@@ -15,6 +15,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import safeJsonStringify from 'safe-json-stringify'
 import { v4 as uuid } from 'uuid'
+import PersonalHome from '../components/community/personal-home.component'
+import Premium from '../components/community/premium.component'
+import Recommandation from '../components/community/recommandation.component'
 import CommunityPageLayout from '../components/layout/community-layout.component'
 import NoPosts from '../components/post/no-posts.component'
 import PostItem from '../components/post/post-item.component'
@@ -148,7 +151,11 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
                     <NoPosts />
                 )}
             </Stack>
-            <></>
+            <Stack spacing={2}>
+                <Recommandation />
+                <Premium />
+                <PersonalHome />
+            </Stack>
         </CommunityPageLayout>
     )
 }
