@@ -24,6 +24,8 @@ interface IProps {
 }
 
 const Posts: React.FC<IProps> = ({ communityData }) => {
+    // TODO: Add pagination
+
     const [user] = useAuthState(auth)
 
     const [isLoading, setIsLoading] = useState<boolean>(true)

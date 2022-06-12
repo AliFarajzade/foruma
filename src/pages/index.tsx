@@ -41,6 +41,7 @@ const Home: NextPage = () => {
         votesIsLoading,
     } = usePosts()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const memoedSnap = useMemo(() => lastSnap, [page])
 
     const buildUserHomeFeed = async () => {}
