@@ -9,11 +9,13 @@ import {
     Text,
 } from '@chakra-ui/react'
 import moment from 'moment'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { BsChat } from 'react-icons/bs'
+import { FaReddit } from 'react-icons/fa'
 import {
     IoArrowDownCircleOutline,
     IoArrowDownCircleSharp,
@@ -39,6 +41,7 @@ interface IProps {
     ) => Promise<void>
     votesIsLoading: boolean
     handleSelectPost?: (post: TPost) => void
+    homePage?: boolean
 }
 
 const PostItem: React.FC<IProps> = ({
@@ -49,6 +52,7 @@ const PostItem: React.FC<IProps> = ({
     handlePostVote,
     votesIsLoading,
     handleSelectPost,
+    homePage,
 }) => {
     const [isMediaLoading, setIsMediaLoading] = useState<boolean>(
         !!(post.mediaType === 'image')
@@ -136,7 +140,37 @@ const PostItem: React.FC<IProps> = ({
                         align="center"
                         fontSize="9pt"
                     >
-                        {/* Home page check */}
+                        {homePage && (
+                            <Link
+                                href={`/r/${post.communityID}`}
+                                target="_blank"
+                            >
+                                <Flex align="center" mr={2} cursor="pointer">
+                                    {post.communityImageURL ? (
+                                        <Img
+                                            src={post.communityImageURL}
+                                            alt={post.communityID}
+                                            boxSize={27}
+                                            mr={2}
+                                            borderRadius="full"
+                                        />
+                                    ) : (
+                                        <Icon
+                                            as={FaReddit}
+                                            fontSize={27}
+                                            color="brand.primary"
+                                            mr={2}
+                                        />
+                                    )}
+
+                                    <Text
+                                        _hover={{ textDecoration: 'underline' }}
+                                        fontSize="10pt"
+                                        fontWeight={700}
+                                    >{`/r/${post.communityID}`}</Text>
+                                </Flex>
+                            </Link>
+                        )}
                         <Box color="gray.600">
                             Posted by{' '}
                             <Text
@@ -216,9 +250,10 @@ const PostItem: React.FC<IProps> = ({
                         <Icon
                             as={BsChat}
                             mr="2"
-                            onClick={() =>
+                            onClick={() => {
                                 handleSelectPost && handleSelectPost(post)
-                            }
+                                router.push(`/r/${post.communityID}`)
+                            }}
                             cursor="pointer"
                         />
                         <Text fontSize="9pt">{post.numberOfComments}</Text>

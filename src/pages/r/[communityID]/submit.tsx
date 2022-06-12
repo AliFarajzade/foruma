@@ -14,7 +14,11 @@ const SubmitPage: NextPage = () => {
                 <Box bg="white" padding="15px" fontWeight="400">
                     Create a new post
                 </Box>
-                <NewPostForm />
+                <NewPostForm
+                    communityImageURL={
+                        communityState.currentCommunity?.imageURL
+                    }
+                />
             </>
 
             <>

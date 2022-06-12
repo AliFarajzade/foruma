@@ -119,6 +119,7 @@ const Home: NextPage = () => {
                                 handlePostVote={handlePostVote}
                                 votesIsLoading={votesIsLoading}
                                 handleSelectPost={handleSelectPost}
+                                homePage
                             />
                         ))
                     ) : (
