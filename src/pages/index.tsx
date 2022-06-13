@@ -15,6 +15,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import safeJsonStringify from 'safe-json-stringify'
 import { v4 as uuid } from 'uuid'
+import LatestsPosts from '../components/community/latests-posts.component'
 import PersonalHome from '../components/community/personal-home.component'
 import Premium from '../components/community/premium.component'
 import Recommandation from '../components/community/recommandation.component'
@@ -126,37 +127,42 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     }, [user, postsState.posts])
     // TODO: Add slider
     return (
-        <CommunityPageLayout>
-            <Stack spacing={6}>
-                {isSettingRecoilState ? (
-                    [1, 2, 3, 4, 5].map(key => <PostSkeleton key={key} />)
-                ) : postsState.posts.length !== 0 ? (
-                    postsState.posts.map(postObj => (
-                        <PostItem
-                            key={uuid()}
-                            post={postObj}
-                            isUserTheCreator={user?.uid === postObj.creatorID}
-                            userVoteValue={
-                                postsState.postsVotes.find(
-                                    ({ postID }) => postID === postObj.ID
-                                )?.voteValue
-                            }
-                            handleDeletePost={handleDeletePost}
-                            handlePostVote={handlePostVote}
-                            votesIsLoading={votesIsLoading}
-                            handleSelectPost={handleSelectPost}
-                        />
-                    ))
-                ) : (
-                    <NoPosts />
-                )}
-            </Stack>
-            <Stack spacing={2}>
-                <Recommandation />
-                <Premium />
-                <PersonalHome />
-            </Stack>
-        </CommunityPageLayout>
+        <>
+            <LatestsPosts />
+            <CommunityPageLayout>
+                <Stack spacing={6}>
+                    {isSettingRecoilState ? (
+                        [1, 2, 3, 4, 5].map(key => <PostSkeleton key={key} />)
+                    ) : postsState.posts.length !== 0 ? (
+                        postsState.posts.map(postObj => (
+                            <PostItem
+                                key={uuid()}
+                                post={postObj}
+                                isUserTheCreator={
+                                    user?.uid === postObj.creatorID
+                                }
+                                userVoteValue={
+                                    postsState.postsVotes.find(
+                                        ({ postID }) => postID === postObj.ID
+                                    )?.voteValue
+                                }
+                                handleDeletePost={handleDeletePost}
+                                handlePostVote={handlePostVote}
+                                votesIsLoading={votesIsLoading}
+                                handleSelectPost={handleSelectPost}
+                            />
+                        ))
+                    ) : (
+                        <NoPosts />
+                    )}
+                </Stack>
+                <Stack spacing={2}>
+                    <Recommandation />
+                    <Premium />
+                    <PersonalHome />
+                </Stack>
+            </CommunityPageLayout>
+        </>
     )
 }
 
