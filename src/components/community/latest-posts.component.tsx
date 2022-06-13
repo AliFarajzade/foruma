@@ -51,7 +51,7 @@ const LatestPosts = () => {
     }, [])
 
     return (
-        <Flex py="4" mx="auto" direction="column" width="95%" maxWidth="990px">
+        <Flex py="4" direction="column">
             <Text mb={3} fontWeight={700}>
                 Latest Posts
             </Text>

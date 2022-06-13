@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import {
     collection,
     DocumentData,
@@ -128,7 +128,18 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     // TODO: Add slider
     return (
         <>
-            <LatestPosts />
+            <Flex
+                mb={-3}
+                direction="column"
+                width="95%"
+                maxWidth="990px"
+                mx="auto"
+            >
+                <LatestPosts />
+                <Text mb={3} fontWeight={700}>
+                    Hottest Posts
+                </Text>
+            </Flex>
             <CommunityPageLayout>
                 <Stack spacing={6}>
                     {isSettingRecoilState ? (
