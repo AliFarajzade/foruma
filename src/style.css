@@ -79,3 +79,8 @@
         transform: rotate(360deg);
     }
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
