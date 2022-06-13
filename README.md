@@ -6,10 +6,10 @@
 
 :star: Star me on GitHub — it motivates me a lot!
 
-[Foruma](https://vercel.com/alifarajzade/foruma) is THE professional, full-featured and
+[Foruma](https://foruma.vercel.app/) is THE professional, full-featured and
 high performance forum website based on Firebase!
 
-[![Foruma](http://www.upsara.com/images/t947953_.png)](https://vercel.com/alifarajzade/foruma)
+[![Foruma](http://www.upsara.com/images/t947953_.png)](https://foruma.vercel.app/)
 
 ## Technologies that was used to build this app:
 
