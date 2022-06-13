@@ -17,7 +17,7 @@ high performance forum website based on Firebase!
 <img align="left" title='React' alt="React" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" />
 <img align="left" title='Next' alt="Next" width="35px" src="https://www.svgrepo.com/show/354113/nextjs-icon.svg" />
 <img align="left" title='ChakraUI' alt="ChakraUI" width="35px" src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/logo/logomark-colored.svg" />
-<img align="left" title='Firebase' alt="Firebase" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/3/37/Firebase_Logo.svg" />
+<img align="left" title='Firebase' alt="Firebase" width="35px" src="https://e7.pngegg.com/pngimages/119/167/png-clipart-firebase-cloud-messaging-google-developers-software-development-kit-google-angle-triangle-thumbnail.png" />
 <img align="left" title='Visual Studio Code' alt="Visual Studio Code" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" />
 <img align="left" title='Git' alt="Git" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" />
 <img align="left" title='Terminal' alt="Terminal" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/High-contrast-utilities-terminal.svg/1024px-High-contrast-utilities-terminal.svg.png" />
