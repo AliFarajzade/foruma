@@ -6,10 +6,10 @@
 
 :star: Star me on GitHub — it motivates me a lot!
 
-[Foruma](https://aimeos.org/TYPO3) is THE professional, full-featured and
+[Foruma](https://vercel.com/alifarajzade/foruma) is THE professional, full-featured and
 high performance forum website based on Firebase!
 
-[![Foruma](http://www.upsara.com/images/t947953_.png)](http://typo3.demo.aimeos.org/)
+[![Foruma](http://www.upsara.com/images/t947953_.png)](https://vercel.com/alifarajzade/foruma)
 
 ## Technologies that was used to build this app:
 
@@ -50,4 +50,4 @@ yarn start [PORT=3000]
 
 ## Links
 
--   [Web site](https://aimeos.org/integrations/typo3-shop-extension/)
+-   [Web site](https://vercel.com/alifarajzade/foruma)
