@@ -3,7 +3,6 @@ import moment from 'moment'
 import Link from 'next/link'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsPerson } from 'react-icons/bs'
-import { HiOutlineDotsHorizontal } from 'react-icons/hi'
 import { RiCakeLine } from 'react-icons/ri'
 import { useRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
@@ -34,7 +33,6 @@ const AboutCommunity: React.FC<IProps> = ({ currentCommunity }) => {
                 <Text fontSize="10pt" fontWeight="700">
                     About Community
                 </Text>
-                <Icon as={HiOutlineDotsHorizontal} />
             </Flex>
             <Flex justify="space-between" align="center" bg="white">
                 <Stack width="100%" p="3">
