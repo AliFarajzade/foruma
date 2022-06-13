@@ -23,8 +23,9 @@ high performance forum website based on Firebase!
 <img align="left" title='Terminal' alt="Terminal" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/High-contrast-utilities-terminal.svg/1024px-High-contrast-utilities-terminal.svg.png" />
 <img align="left" title='Github' alt="Github" width="35px" src="https://github.githubassets.com/images/modules/logos_page/Octocat.png" />
 
-<br/>
-<br/>
+<br >
+<br >
+<br >
 
 ## How to set up:
 
