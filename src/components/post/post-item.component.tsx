@@ -302,7 +302,8 @@ const PostItem: React.FC<IProps> = ({
                             borderRadius={4}
                             _hover={{ bg: 'gray.200' }}
                             cursor="pointer"
-                            onClick={() => {
+                            onClick={e => {
+                                e.stopPropagation()
                                 if (isDeleting) return
                                 deletePost()
                                 if (singlePostPage) {
