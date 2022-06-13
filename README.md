@@ -11,7 +11,7 @@ high performance forum website based on Firebase!
 
 [![Foruma](http://www.upsara.com/images/t947953_.png)](http://typo3.demo.aimeos.org/)
 
-## Technologies that was used to build this app.
+## Technologies that was used to build this app:
 
 <img align="left" title='TypeScript' alt="TypeScript" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg" />
 <img align="left" title='React' alt="React" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" />
@@ -22,6 +22,9 @@ high performance forum website based on Firebase!
 <img align="left" title='Git' alt="Git" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" />
 <img align="left" title='Terminal' alt="Terminal" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/High-contrast-utilities-terminal.svg/1024px-High-contrast-utilities-terminal.svg.png" />
 <img align="left" title='Github' alt="Github" width="35px" src="https://github.githubassets.com/images/modules/logos_page/Octocat.png" />
+
+<br/>
+<br/>
 
 ## How to set up:
 
