@@ -12,6 +12,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { BsChat } from 'react-icons/bs'
@@ -26,6 +27,8 @@ import {
 } from 'react-icons/io5'
 import ReactPlayer from 'react-player/lazy'
 import { useSetRecoilState } from 'recoil'
+import { auth } from '../../firebase/config.firebase'
+import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
 import postsStateAtom from '../../recoil/atoms/post.atom'
 import { TPost } from '../../types/post.types'
 
@@ -58,7 +61,10 @@ const PostItem: React.FC<IProps> = ({
         !!(post.mediaType === 'image')
     )
 
+    const [user] = useAuthState(auth)
+
     const setPostsState = useSetRecoilState(postsStateAtom)
+    const setAuthModalState = useSetRecoilState(authModalStateAtom)
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
     const router = useRouter()
@@ -132,7 +138,12 @@ const PostItem: React.FC<IProps> = ({
                 </Flex>
             )}
 
-            <Flex direction="column" width="100%">
+            <Flex
+                direction="column"
+                width="100%"
+                onClick={() => handleSelectPost && handleSelectPost(post)}
+                cursor="pointer"
+            >
                 <Stack spacing="1" padding="10px">
                     <Stack
                         direction="row"
@@ -144,8 +155,14 @@ const PostItem: React.FC<IProps> = ({
                             <Link
                                 href={`/r/${post.communityID}`}
                                 target="_blank"
+                                onClick={e => e.stopPropagation()}
                             >
-                                <Flex align="center" mr={2} cursor="pointer">
+                                <Flex
+                                    align="center"
+                                    mr={2}
+                                    cursor="pointer"
+                                    onClick={e => e.stopPropagation()}
+                                >
                                     {post.communityImageURL ? (
                                         <Img
                                             src={post.communityImageURL}
@@ -191,14 +208,7 @@ const PostItem: React.FC<IProps> = ({
                     </Stack>
 
                     <Stack pb="4">
-                        <Text
-                            onClick={() =>
-                                handleSelectPost && handleSelectPost(post)
-                            }
-                            cursor="pointer"
-                            fontSize="13pt"
-                            fontWeight="600"
-                        >
+                        <Text cursor="pointer" fontSize="13pt" fontWeight="600">
                             {post.title}
                         </Text>
                         <Text fontSize="11pt">{post.description}</Text>
@@ -217,10 +227,8 @@ const PostItem: React.FC<IProps> = ({
                             }
                             borderColor="gray.200"
                             borderRadius="3px"
-                            onClick={() =>
-                                handleSelectPost && handleSelectPost(post)
-                            }
                             cursor="pointer"
+                            onClick={e => e.stopPropagation()}
                         >
                             {post.mediaType === 'video' && (
                                 <ReactPlayer
@@ -246,12 +254,6 @@ const PostItem: React.FC<IProps> = ({
                         borderRadius={4}
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
-                        onClick={() => {
-                            handleSelectPost && handleSelectPost(post)
-                            router.push(
-                                `/r/${post.communityID}/comments/${post.ID}`
-                            )
-                        }}
                     >
                         <Icon as={BsChat} mr="2" cursor="pointer" />
                         <Text fontSize="9pt">{post.numberOfComments}</Text>
@@ -262,7 +264,8 @@ const PostItem: React.FC<IProps> = ({
                         borderRadius={4}
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
-                        onClick={() => {
+                        onClick={e => {
+                            e.stopPropagation()
                             navigator.clipboard.writeText(
                                 `${window.location.origin}/r/${post.communityID}/comments/${post.ID}`
                             )
@@ -279,6 +282,15 @@ const PostItem: React.FC<IProps> = ({
                         borderRadius={4}
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
+                        onClick={e => {
+                            e.stopPropagation()
+                            if (!user)
+                                setAuthModalState(prevState => ({
+                                    ...prevState,
+                                    open: true,
+                                    view: 'logIn',
+                                }))
+                        }}
                     >
                         <Icon as={IoBookmarkOutline} mr="2" />
                         <Text fontSize="9pt">Save</Text>
