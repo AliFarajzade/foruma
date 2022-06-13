@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import { RecoilRoot } from 'recoil'
 import theme from '../chakra/theme'
 import Layout from '../components/layout/layout.component'
+import { printASCII } from '../helpers/asci.helper'
 import '../style.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
     }, [])
 
+    printASCII()
     return (
         <RecoilRoot>
             <ChakraProvider theme={theme}>
