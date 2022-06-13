@@ -15,7 +15,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import safeJsonStringify from 'safe-json-stringify'
 import { v4 as uuid } from 'uuid'
-import LatestsPosts from '../components/community/latest-posts.component'
+import LatestPosts from '../components/community/latest-posts.component'
 import PersonalHome from '../components/community/personal-home.component'
 import Premium from '../components/community/premium.component'
 import Recommandation from '../components/community/recommandation.component'
@@ -128,7 +128,7 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     // TODO: Add slider
     return (
         <>
-            <LatestsPosts />
+            <LatestPosts />
             <CommunityPageLayout>
                 <Stack spacing={6}>
                     {isSettingRecoilState ? (

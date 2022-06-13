@@ -13,9 +13,9 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { firestore } from '../../firebase/config.firebase'
 import { TPost } from '../../types/post.types'
-import LatestsPostsSlider from './latest-posts-slider.component'
+import LatestPostsSlider from './latest-posts-slider.component'
 
-const LatestsPosts = () => {
+const LatestPosts = () => {
     const [posts, setPosts] = useState<TPost[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -70,11 +70,11 @@ const LatestsPosts = () => {
                 </Flex>
             ) : (
                 <Flex gap="2">
-                    <LatestsPostsSlider posts={posts} />
+                    <LatestPostsSlider posts={posts} />
                 </Flex>
             )}
         </Flex>
     )
 }
 
-export default LatestsPosts
+export default LatestPosts

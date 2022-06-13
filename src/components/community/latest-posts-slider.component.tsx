@@ -15,7 +15,7 @@ interface IProps {
     posts: TPost[]
 }
 
-const LatestsPostsSlider: React.FC<IProps> = ({ posts }) => {
+const LatestPostsSlider: React.FC<IProps> = ({ posts }) => {
     const [isLargerThan950px] = useMediaQuery('(min-width: 951px)')
     const [isLargerThan740px] = useMediaQuery('(min-width: 740px)')
     const [isLargerThan500px] = useMediaQuery('(min-width: 500px)')
@@ -45,4 +45,4 @@ const LatestsPostsSlider: React.FC<IProps> = ({ posts }) => {
     )
 }
 
-export default LatestsPostsSlider
+export default LatestPostsSlider
