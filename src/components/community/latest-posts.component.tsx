@@ -13,7 +13,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { firestore } from '../../firebase/config.firebase'
 import { TPost } from '../../types/post.types'
-import LatestPostCard from './latests-post-card.component'
+import LatestsPostsSlider from './latest-posts-slider.component'
 
 const LatestsPosts = () => {
     const [posts, setPosts] = useState<TPost[]>([])
@@ -70,9 +70,7 @@ const LatestsPosts = () => {
                 </Flex>
             ) : (
                 <Flex gap="2">
-                    {posts.map(postObj => (
-                        <LatestPostCard key={postObj.ID} post={postObj} />
-                    ))}
+                    <LatestsPostsSlider posts={posts} />
                 </Flex>
             )}
         </Flex>
