@@ -262,6 +262,13 @@ const PostItem: React.FC<IProps> = ({
                         borderRadius={4}
                         _hover={{ bg: 'gray.200' }}
                         cursor="pointer"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                `${window.location.origin}/r/${post.communityID}/comments/${post.ID}`
+                            )
+
+                            toast.success('🔗 Link copied to clipboard')
+                        }}
                     >
                         <Icon as={IoArrowRedoOutline} mr="2" />
                         <Text fontSize="9pt">Share</Text>
