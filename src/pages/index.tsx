@@ -125,7 +125,6 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     useEffect(() => {
         if (user && postsState.posts.length !== 0) getPostsVotes()
     }, [user, postsState.posts])
-    // TODO: Add slider
     return (
         <>
             <Flex
