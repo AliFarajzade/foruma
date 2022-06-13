@@ -12,10 +12,12 @@ import { deleteObject, ref } from 'firebase/storage'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { FaReddit } from 'react-icons/fa'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { auth, firestore, storage } from '../firebase/config.firebase'
 import authModalStateAtom from '../recoil/atoms/auth-modal.atom'
 import communitySnippetStateAtom from '../recoil/atoms/community.atom'
+import directoryMenuStateAtom from '../recoil/atoms/directory.atom'
 import postsStateAtom from '../recoil/atoms/post.atom'
 import { TPost, TPostVote } from '../types/post.types'
 
@@ -26,6 +28,7 @@ const usePosts = () => {
     const [votesIsLoading, setVotesIsLoading] = useState<boolean>(false)
     const setAuthModalState = useSetRecoilState(authModalStateAtom)
     const router = useRouter()
+    const setDirectoryState = useSetRecoilState(directoryMenuStateAtom)
 
     const getCommunityVotes = async (communityID: string) => {
         if (!user) return
@@ -192,6 +195,16 @@ const usePosts = () => {
         }
     }
     const handleSelectPost = (post: TPost) => {
+        setDirectoryState(prevState => ({
+            ...prevState,
+            selectedMenuItem: {
+                imageURL: post.communityImageURL,
+                icon: FaReddit,
+                iconColor: 'blue.500',
+                link: `/r/${post.communityID}`,
+                name: post.communityID,
+            },
+        }))
         setPostsState(prevState => ({ ...prevState, selectedPost: post }))
         router.push(`/r/${post.communityID}/comments/${post.ID}`)
     }
