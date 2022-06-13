@@ -64,9 +64,7 @@ const LatestPosts = () => {
                     justify="space-between"
                     direction="row"
                 >
-                    {[1, 2, 3, 4].map(key => (
-                        <Skeleton key={key} height="200px" flex="1" />
-                    ))}
+                    <Skeleton height="200px" flex="1" />
                 </Flex>
             ) : (
                 <Flex gap="2">
