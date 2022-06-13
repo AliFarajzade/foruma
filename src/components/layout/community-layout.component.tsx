@@ -7,10 +7,10 @@ interface IProps {
 const CommunityPageLayout: React.FC<IProps> = ({ children }) => {
     return (
         <Flex justify="center" p="16px 0px">
-            <Flex justify="center" width="95%" maxWidth="860px">
+            <Flex justify="center" width="95%" maxWidth="990px">
                 <Flex
                     direction="column"
-                    width={{ base: '100%', md: '65%' }}
+                    width={{ base: '100%', md: '70%' }}
                     mr={{ base: 0, md: 6 }}
                 >
                     {children[0]}
