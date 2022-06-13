@@ -19,7 +19,7 @@ high performance forum website based on Firebase!
 <img align="left" title='ChakraUI' alt="ChakraUI" width="35px" src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/logo/logomark-colored.svg" />
 <img align="left" title='Firebase' alt="Firebase" width="35px" src="https://seeklogo.com/images/F/firebase-logo-402F407EE0-seeklogo.com.png" />
 <img align="left" title='Visual Studio Code' alt="Visual Studio Code" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" />
-<img align="left" title='Git' alt="Git" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" />
+<img align="left" title='Git' alt="Git" width="35px" style='transform: translateY(-2px)' src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Git_icon.svg" />
 <img align="left" title='Terminal' alt="Terminal" width="35px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/High-contrast-utilities-terminal.svg/1024px-High-contrast-utilities-terminal.svg.png" />
 <img align="left" title='Github' alt="Github" width="35px" src="https://github.githubassets.com/images/modules/logos_page/Octocat.png" />
 
