@@ -13,6 +13,7 @@ const SearchInput: React.FC<TProps> = ({ user }) => {
             align="center"
             maxWidth={user ? 'auto' : '500px'}
             flexGrow={1}
+            flexShrink="1"
             mr={{ base: '0', sm: '2' }}
         >
             <InputGroup>
