@@ -4,9 +4,9 @@
 
 # Foruma, A forum website built with NextJs and TypeScript.
 
-:star: Star us on GitHub — it motivates us a lot!
+:star: Star me on GitHub — it motivates me a lot!
 
-[Aimeos](https://aimeos.org/TYPO3) is THE professional, full-featured and
+[Foruma](https://aimeos.org/TYPO3) is THE professional, full-featured and
 high performance forum website based on Firebase!
 
 [![Foruma](http://www.upsara.com/images/t947953_.png)](http://typo3.demo.aimeos.org/)
