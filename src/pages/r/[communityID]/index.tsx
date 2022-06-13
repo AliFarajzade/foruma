@@ -1,7 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore'
 import { GetServerSidePropsContext, NextPage } from 'next'
 import { useEffect } from 'react'
-import { FaReddit } from 'react-icons/fa'
 import { useSetRecoilState } from 'recoil'
 import safeJsonStringify from 'safe-json-stringify'
 import AboutCommunity from '../../../components/community/about-community.component'
@@ -73,8 +72,6 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             setDirectoryState(prevState => ({
                 ...prevState,
                 selectedMenuItem: {
-                    icon: FaReddit,
-                    iconColor: 'blue.500',
                     link: `/r/${communityData.id}`,
                     name: communityData.id,
                     imageURL: communityData.imageURL,

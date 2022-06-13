@@ -16,7 +16,6 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { BsChat } from 'react-icons/bs'
-import { FaReddit } from 'react-icons/fa'
 import {
     IoArrowDownCircleOutline,
     IoArrowDownCircleSharp,
@@ -171,11 +170,12 @@ const PostItem: React.FC<IProps> = ({
                                             borderRadius="full"
                                         />
                                     ) : (
-                                        <Icon
-                                            as={FaReddit}
-                                            fontSize={27}
-                                            color="brand.primary"
+                                        <Img
+                                            src="/images/f-circle.png"
+                                            alt={post.communityID}
+                                            boxSize={27}
                                             mr={2}
+                                            borderRadius="full"
                                         />
                                     )}
 

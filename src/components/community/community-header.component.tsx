@@ -1,6 +1,5 @@
-import { Box, Button, Flex, Icon, Img, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Img, Text } from '@chakra-ui/react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FaReddit } from 'react-icons/fa'
 import useCommunityData from '../../hooks/use-community-data.hook'
 import { TCommunity } from '../../types/community.types'
 import { auth } from './../../firebase/config.firebase'
@@ -54,12 +53,11 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                             border="4px solid white"
                         />
                     ) : (
-                        <Icon
-                            as={FaReddit}
-                            fontSize="64"
+                        <Img
+                            src="/images/f-circle.png"
+                            boxSize="4em"
                             position="relative"
-                            top={-3}
-                            color="blue.400"
+                            top={-4}
                             border="4px solid white"
                             borderRadius="50%"
                         />

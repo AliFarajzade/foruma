@@ -8,7 +8,6 @@ import {
     MenuList,
     Text,
 } from '@chakra-ui/react'
-import { FaReddit } from 'react-icons/fa'
 import { TiHome } from 'react-icons/ti'
 import useDirectory from '../../hooks/use-directory.hook'
 import Communities from './communities.component'
@@ -50,11 +49,12 @@ const Directory: React.FC = () => {
                                     as={TiHome}
                                 />
                             ) : (
-                                <Icon
-                                    fontSize={30}
+                                <Img
+                                    src="/images/f-circle.png"
+                                    alt={directoryState.selectedMenuItem.name}
+                                    boxSize={30}
+                                    borderRadius="full"
                                     mr={{ base: 1, md: 2 }}
-                                    color="blue.500"
-                                    as={FaReddit}
                                 />
                             )}
                             <Flex display={{ base: 'none', lg: 'flex' }}>

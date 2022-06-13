@@ -12,7 +12,6 @@ import { deleteObject, ref } from 'firebase/storage'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FaReddit } from 'react-icons/fa'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { auth, firestore, storage } from '../firebase/config.firebase'
 import authModalStateAtom from '../recoil/atoms/auth-modal.atom'
@@ -199,8 +198,6 @@ const usePosts = () => {
             ...prevState,
             selectedMenuItem: {
                 imageURL: post.communityImageURL,
-                icon: FaReddit,
-                iconColor: 'blue.500',
                 link: `/r/${post.communityID}`,
                 name: post.communityID,
             },

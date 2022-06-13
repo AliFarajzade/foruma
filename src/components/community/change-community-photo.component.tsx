@@ -1,7 +1,6 @@
 import {
     Divider,
     Flex,
-    Icon,
     Img,
     Input,
     Progress,
@@ -11,7 +10,6 @@ import {
 import { doc, writeBatch } from 'firebase/firestore'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaReddit } from 'react-icons/fa'
 import { SetterOrUpdater } from 'recoil'
 import { firestore } from '../../firebase/config.firebase'
 import useSelectMedia from '../../hooks/use-select-media.hook'
@@ -163,11 +161,10 @@ const ChangeCommunityPhoto: React.FC<IProps> = ({
                             objectPosition="center"
                         />
                     ) : (
-                        <Icon
-                            as={FaReddit}
-                            fontSize="40"
-                            color="brand.primary"
-                            mr="2"
+                        <Img
+                            src="/images/f-circle.png"
+                            width="40px"
+                            alignSelf="flex-end"
                         />
                     )}
                 </Flex>

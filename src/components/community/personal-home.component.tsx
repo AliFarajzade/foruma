@@ -1,7 +1,6 @@
-import { Button, Flex, Icon, Stack, Text } from '@chakra-ui/react'
+import { Button, Flex, Img, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { FaReddit } from 'react-icons/fa'
 import { useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
 import authModalStateAtom from '../../recoil/atoms/auth-modal.atom'
@@ -33,11 +32,11 @@ const PersonalHome: React.FC = () => {
             ></Flex>
             <Flex direction="column" p="12px">
                 <Flex align="center" mb={2}>
-                    <Icon
-                        as={FaReddit}
-                        fontSize={50}
-                        color="brand.primary"
-                        mr={2}
+                    <Img
+                        src="/images/f-circle.png"
+                        boxSize="44px"
+                        mr={4}
+                        borderRadius="full"
                     />
                     <Text fontWeight={600}>Home</Text>
                 </Flex>

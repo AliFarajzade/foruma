@@ -1,6 +1,5 @@
 import { Box, Flex, Icon, MenuItem, Skeleton, Text } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FaReddit } from 'react-icons/fa'
 import { GrAdd } from 'react-icons/gr'
 import useCommunityData from '../../hooks/use-community-data.hook'
 import CreateCommunityModal from '../modal/commiunity/create-community-modal.component'
@@ -35,8 +34,6 @@ const Communities: React.FC = () => {
                           .map(snippet => (
                               <CommunityMenuItem
                                   key={snippet.communityID}
-                                  icon={FaReddit}
-                                  iconColor="blue.500"
                                   link={`/r/${snippet.communityID}`}
                                   name={`/r/${snippet.communityID}`}
                                   imageURL={snippet.imageURL}
@@ -77,8 +74,6 @@ const Communities: React.FC = () => {
                     : mySnippets.map(snippet => (
                           <CommunityMenuItem
                               key={snippet.communityID}
-                              icon={FaReddit}
-                              iconColor="blue.500"
                               link={`/r/${snippet.communityID}`}
                               name={snippet.communityID}
                               imageURL={snippet.imageURL}

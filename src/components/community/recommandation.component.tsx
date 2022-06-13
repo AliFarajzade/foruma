@@ -2,7 +2,6 @@ import {
     Box,
     Button,
     Flex,
-    Icon,
     Img,
     Skeleton,
     SkeletonCircle,
@@ -13,7 +12,6 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaReddit } from 'react-icons/fa'
 import { firestore } from '../../firebase/config.firebase'
 import useCommunityData from '../../hooks/use-community-data.hook'
 import { TCommunity } from '../../types/community.types'
@@ -122,11 +120,11 @@ const Recommandation: React.FC = () => {
                                                     mr={2}
                                                 />
                                             ) : (
-                                                <Icon
-                                                    as={FaReddit}
-                                                    fontSize={30}
-                                                    color="brand.100"
+                                                <Img
+                                                    src="/images/f-circle.png"
+                                                    boxSize="30px"
                                                     mr={2}
+                                                    borderRadius="full"
                                                 />
                                             )}
                                             <span

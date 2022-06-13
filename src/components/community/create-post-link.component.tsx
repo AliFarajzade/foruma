@@ -1,9 +1,8 @@
-import { Flex, Icon, Input } from '@chakra-ui/react'
+import { Flex, Icon, Img, Input } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsLink45Deg } from 'react-icons/bs'
-import { FaReddit } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { auth } from '../../firebase/config.firebase'
@@ -52,7 +51,15 @@ const CreatePostLink: React.FC = () => {
             p={2}
             mb={4}
         >
-            <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
+            <Img
+                src={
+                    directoryState.selectedMenuItem.imageURL ??
+                    '/images/f-circle.png'
+                }
+                boxSize="34px"
+                mr={4}
+                borderRadius="full"
+            />
             <Input
                 placeholder="Create Post"
                 fontSize="10pt"

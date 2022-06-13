@@ -1,4 +1,4 @@
-import { Flex, Img, Spinner } from '@chakra-ui/react'
+import { Box, Flex, Img, Spinner } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
     return (
         <Flex
             bg="white"
-            height="44px"
+            height="50px"
             padding="6px 12px"
             justify="space-between"
             cursor="pointer"
@@ -35,20 +35,28 @@ const Navbar: React.FC = () => {
                     resetDirectoryState()
                 }}
                 align="center"
-                width={{ base: '40px', sm: '40px', md: 'auto' }}
-                mr={{ base: 1 }}
+                width={{ base: '46PX', sm: '46PX', md: 'auto' }}
+                mr={{ base: '-10px', md: 1 }}
+                flexShrink="0"
             >
                 <Img
-                    display="block"
-                    src="/images/redditFace.svg"
-                    height="30px"
-                    minWidth={{ base: '30px' }}
+                    src="/images/foruma-f.png"
+                    width="26px"
+                    top="0"
+                    left="0"
+                    flexShrink="0"
+                    mr={{ base: 0, md: 2 }}
                 />
-                <Img
-                    src="/images/redditText.svg"
-                    height="46px"
+                <Box
+                    fontWeight={600}
+                    bgImage="linear-gradient(to right, #ff3c00, #ff8e6b)"
+                    bgClip="text"
+                    fontSize="1.3rem"
                     display={{ base: 'none', md: 'unset' }}
-                />
+                    transform="translate(0, 1px)"
+                >
+                    Foruma
+                </Box>
             </Flex>
             {user && <Directory />}
             <SearchInput user={user} />
