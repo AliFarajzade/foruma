@@ -1,4 +1,3 @@
-import { TiHome } from 'react-icons/ti'
 import { atom } from 'recoil'
 import {
     TDirectoryMenuItem,
@@ -8,8 +7,6 @@ import {
 const defaultMenuItem: TDirectoryMenuItem = {
     name: 'Home',
     link: '/',
-    icon: TiHome,
-    iconColor: 'black',
 }
 
 const INITIAL_STATE: TDirectoryMenuState = {
