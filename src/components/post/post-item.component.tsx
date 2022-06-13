@@ -155,7 +155,6 @@ const PostItem: React.FC<IProps> = ({
                             <Link
                                 href={`/r/${post.communityID}`}
                                 target="_blank"
-                                onClick={e => e.stopPropagation()}
                             >
                                 <Flex
                                     align="center"
