@@ -146,6 +146,7 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
                     ) : postsState.posts.length !== 0 ? (
                         postsState.posts.map(postObj => (
                             <PostItem
+                                homePage
                                 key={uuid()}
                                 post={postObj}
                                 isUserTheCreator={
