@@ -26,7 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
     }, [])
 
-    printASCII()
+    useEffect(() => {
+        printASCII()
+    }, [])
     return (
         <RecoilRoot>
             <ChakraProvider theme={theme}>
