@@ -167,7 +167,7 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
                         <NoPosts />
                     )}
                 </Stack>
-                <Stack spacing={2}>
+                <Stack position="sticky" top="15px" spacing={2}>
                     <Recommandation />
                     <Premium />
                     <PersonalHome />
