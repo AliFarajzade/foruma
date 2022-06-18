@@ -10,6 +10,7 @@ import CommunityPageLayout from '../../../../../components/layout/community-layo
 import NotFound from '../../../../../components/not-found/not-found.component'
 import PostItem from '../../../../../components/post/post-item.component'
 import PostSkeleton from '../../../../../components/post/post-skeleton.component'
+import SEO from '../../../../../components/SEO/seo.component'
 import { auth, firestore } from '../../../../../firebase/config.firebase'
 import useCommunityData from '../../../../../hooks/use-community-data.hook'
 import usePosts from '../../../../../hooks/use-posts.hook'
@@ -79,40 +80,54 @@ const PostPage: NextPage = () => {
             <PostSkeleton />
         </CommunityPageLayout>
     ) : postsState.selectedPost ? (
-        <CommunityPageLayout>
-            <>
-                <PostItem
-                    post={postsState.selectedPost}
-                    isUserTheCreator={
-                        postsState.selectedPost?.creatorID === user?.uid
-                    }
-                    userVoteValue={
-                        postsState.postsVotes.find(
-                            ({ postID }) =>
-                                postID === postsState.selectedPost?.ID
-                        )?.voteValue
-                    }
-                    handleDeletePost={handleDeletePost}
-                    handlePostVote={handlePostVote}
-                    votesIsLoading={votesIsLoading}
-                />
-
-                <Comments
-                    communityID={communityID}
-                    selectedPost={postsState.selectedPost}
-                    user={user}
-                />
-            </>
-            <>
-                {communityState.currentCommunity && (
-                    <AboutCommunity
-                        currentCommunity={communityState.currentCommunity}
+        <>
+            <SEO
+                description={postsState.selectedPost.description}
+                image="/images/foruma.png"
+                title={postsState.selectedPost.title}
+            />
+            <CommunityPageLayout>
+                <>
+                    <PostItem
+                        post={postsState.selectedPost}
+                        isUserTheCreator={
+                            postsState.selectedPost?.creatorID === user?.uid
+                        }
+                        userVoteValue={
+                            postsState.postsVotes.find(
+                                ({ postID }) =>
+                                    postID === postsState.selectedPost?.ID
+                            )?.voteValue
+                        }
+                        handleDeletePost={handleDeletePost}
+                        handlePostVote={handlePostVote}
+                        votesIsLoading={votesIsLoading}
                     />
-                )}
-            </>
-        </CommunityPageLayout>
+
+                    <Comments
+                        communityID={communityID}
+                        selectedPost={postsState.selectedPost}
+                        user={user}
+                    />
+                </>
+                <>
+                    {communityState.currentCommunity && (
+                        <AboutCommunity
+                            currentCommunity={communityState.currentCommunity}
+                        />
+                    )}
+                </>
+            </CommunityPageLayout>
+        </>
     ) : (
-        <NotFound message="This post is either deleted or does not exists." />
+        <>
+            <SEO
+                description="Post not found"
+                image="/images/foruma.png"
+                title="404: Post not found"
+            />
+            <NotFound message="This post is either deleted or does not exists." />
+        </>
     )
 }
 

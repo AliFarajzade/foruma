@@ -9,6 +9,7 @@ import CreatePostLink from '../../../components/community/create-post-link.compo
 import CommunityPageLayout from '../../../components/layout/community-layout.component'
 import NotFound from '../../../components/not-found/not-found.component'
 import Posts from '../../../components/post/posts.component'
+import SEO from '../../../components/SEO/seo.component'
 import { firestore } from '../../../firebase/config.firebase'
 import communitySnippetStateAtom from '../../../recoil/atoms/community.atom'
 import directoryMenuStateAtom from '../../../recoil/atoms/directory.atom'
@@ -82,6 +83,11 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
 
     return communityData ? (
         <>
+            <SEO
+                description={`/r/${communityData.id}`}
+                image="/images/foruma.png"
+                title={`${communityData.id} community`}
+            />
             <CommunityHeader communityData={communityData} />
             <CommunityPageLayout>
                 <>
@@ -94,7 +100,14 @@ const CommunityPage: NextPage<IProps> = ({ communityData }) => {
             </CommunityPageLayout>
         </>
     ) : (
-        <NotFound message="Sorry, this community may not exist or has been banned." />
+        <>
+            <SEO
+                description="Community not found"
+                image="/images/foruma.png"
+                title="404: Community not found"
+            />
+            <NotFound message="Sorry, this community may not exist or has been banned." />
+        </>
     )
 }
 

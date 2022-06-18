@@ -23,6 +23,7 @@ import CommunityPageLayout from '../components/layout/community-layout.component
 import NoPosts from '../components/post/no-posts.component'
 import PostItem from '../components/post/post-item.component'
 import PostSkeleton from '../components/post/post-skeleton.component'
+import SEO from '../components/SEO/seo.component'
 import { auth, firestore } from '../firebase/config.firebase'
 import usePosts from '../hooks/use-posts.hook'
 import { TPost, TPostVote } from '../types/post.types'
@@ -127,6 +128,11 @@ const Home: NextPage<IProps> = ({ serverPosts, lastSnapDoc }) => {
     }, [user, postsState.posts])
     return (
         <>
+            <SEO
+                description="Foruma Home Page, Discover lateest and hottest news in here."
+                image="/images/foruma.png"
+                title="Foruma | Discover Everthing!"
+            />
             <Flex
                 mb={-3}
                 direction="column"
