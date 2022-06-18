@@ -12,8 +12,6 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
-import { BiPoll } from 'react-icons/bi'
-import { BsMic } from 'react-icons/bs'
 import { IoDocumentText, IoImagesOutline } from 'react-icons/io5'
 import { v4 as uuidv4 } from 'uuid'
 import { auth, firestore } from '../../firebase/config.firebase'
@@ -32,14 +30,6 @@ const formTabs = [
     {
         title: 'Image & Video',
         icon: IoImagesOutline,
-    },
-    {
-        title: 'Poll',
-        icon: BiPoll,
-    },
-    {
-        title: 'Talk',
-        icon: BsMic,
     },
 ]
 

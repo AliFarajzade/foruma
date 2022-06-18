@@ -143,12 +143,13 @@ const PostItem: React.FC<IProps> = ({
                 onClick={() => handleSelectPost && handleSelectPost(post)}
                 cursor="pointer"
             >
-                <Stack spacing="1" padding="10px">
+                <Stack spacing="1.5" padding="10px">
                     <Stack
-                        direction="row"
-                        spacing="0.6"
-                        align="center"
+                        direction={{ base: 'column', sm: 'row' }}
+                        spacing={{ base: '2', sm: '0.6' }}
+                        align={{ base: 'flex-start', sm: 'center' }}
                         fontSize="9pt"
+                        textAlign="left"
                     >
                         {homePage && (
                             <Link

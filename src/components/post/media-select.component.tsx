@@ -80,7 +80,12 @@ const MediaSelect: React.FC<IProps> = ({
                             {errorMessage}
                         </Text>
                     )}
-                    <Text my="4" fontSize="10pt" color="gray.500">
+                    <Text
+                        my="4"
+                        fontSize="10pt"
+                        color="gray.500"
+                        textAlign="center"
+                    >
                         {fileSizeAndTypeMessage}
                     </Text>
                     <Input
