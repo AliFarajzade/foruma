@@ -14,7 +14,6 @@ const OAuthButtons: React.FC = () => {
 
     const handleGoogleOAuth = async () => {
         await signInWithGoogle()
-        toast.success('You got registerd!')
     }
 
     const addUserToFirestore = async (user: User) => {
@@ -37,6 +36,11 @@ const OAuthButtons: React.FC = () => {
             addUserToFirestore(userCred.user)
     }, [loading, userCred, oAuthError])
 
+    useEffect(() => {
+        if (!oAuthError && !loading && userCred)
+            toast.success('You got registerd!')
+    }, [oAuthError, loading, userCred])
+
     return (
         <Flex mb="6" direction="column" justify="center" align="center">
             <Button
@@ -49,9 +53,6 @@ const OAuthButtons: React.FC = () => {
             >
                 <Img src="/images/googlelogo.png" height="20px" mr="2" />
                 Continue with Google
-            </Button>
-            <Button width="100%" disabled={loading} variant="oauth" mb="2">
-                Some other provider
             </Button>
             {oAuthError && (
                 <Text
