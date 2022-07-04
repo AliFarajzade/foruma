@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Img, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import usePosts from '../../hooks/use-posts.hook'
 import { TPost } from '../../types/post.types'
@@ -33,10 +33,20 @@ const LatestPostCard: React.FC<IProps> = ({ post }) => {
                 handleSelectPost(post)
             }}
         >
-            <Text fontSize="1.1rem" fontWeight={700}>
+            <Text fontSize="1.1rem" fontWeight={700} mb={1}>
                 {post.title}
             </Text>
-            <Text fontSize=".9rem">{post.description.substring(0, 57)}...</Text>
+            <Flex align="center" gap={2}>
+                {post.communityImageURL && (
+                    <Img
+                        borderRadius="50%"
+                        src={post.communityImageURL}
+                        width="25px"
+                        height="25px"
+                    />
+                )}
+                <Text fontSize=".9rem">By u/{post.creatorDisplayName}</Text>
+            </Flex>
         </Flex>
     )
 }

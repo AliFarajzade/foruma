@@ -31,7 +31,7 @@ import { TPost, TPostVote } from '../types/post.types'
 
 export const getServerSideProps = async () => {
     const postsRef = collection(firestore, 'posts')
-    const postsQuery = query(postsRef, orderBy('voteStatus', 'desc'), limit(20))
+    const postsQuery = query(postsRef, orderBy('voteStatus', 'desc'), limit(10))
 
     try {
         const postsSnap = await getDocs(postsQuery)
