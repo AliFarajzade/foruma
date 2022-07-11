@@ -40,8 +40,6 @@ const PostPage: NextPage = () => {
         if (!pid) return
         const postRef = doc(firestore, 'posts', pid)
         try {
-            console.log('getPost()')
-
             const postSnap = await getDoc(postRef)
             if (!postSnap.exists())
                 setPostsState(prevState => ({

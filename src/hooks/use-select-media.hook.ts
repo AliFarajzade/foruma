@@ -18,7 +18,6 @@ const useSelectMedia = (
     const [mediaString, setMediaString] = useState<string>('')
 
     const selectMedia = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.files)
         if (!event.target.files?.[0]) return
 
         if (event.target.files[0].size > maxSize) {

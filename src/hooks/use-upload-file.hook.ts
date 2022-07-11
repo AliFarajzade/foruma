@@ -21,7 +21,6 @@ const useUploadFile = (): [
                 snapshot => {
                     const progress =
                         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    console.log('Upload is ' + progress + '% done')
                     setProgress(progress)
                 },
                 storageError => {
@@ -33,7 +32,6 @@ const useUploadFile = (): [
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(
                         downloadURL => {
-                            console.log('File available at', downloadURL)
                             setIsUploading(false)
                             setProgress(null)
                             res(downloadURL)
