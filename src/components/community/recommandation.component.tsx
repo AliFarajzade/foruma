@@ -107,7 +107,11 @@ const Recommandation: React.FC = () => {
                                     p="10px 12px"
                                     fontWeight={600}
                                 >
-                                    <Flex width="80%" align="center">
+                                    <Flex
+                                        width="80%"
+                                        align="center"
+                                        _hover={{ cursor: 'pointer' }}
+                                    >
                                         <Flex width="10%">
                                             <Text mr={1}>{index + 1}</Text>
                                         </Flex>
