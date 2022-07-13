@@ -51,6 +51,7 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                             top="-3"
                             color="blue.500"
                             border="4px solid white"
+                            bg="white"
                         />
                     ) : (
                         <Img
@@ -60,6 +61,7 @@ const CommunityHeader: React.FC<IProps> = ({ communityData }) => {
                             top={-4}
                             border="4px solid white"
                             borderRadius="50%"
+                            bg="white"
                         />
                     )}
                     <Flex padding="10px 16px">

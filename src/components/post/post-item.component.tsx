@@ -228,7 +228,10 @@ const PostItem: React.FC<IProps> = ({
                             borderColor="gray.200"
                             borderRadius="3px"
                             cursor="pointer"
-                            onClick={e => e.stopPropagation()}
+                            onClick={e => {
+                                if (post.mediaType === 'video')
+                                    e.stopPropagation()
+                            }}
                         >
                             {post.mediaType === 'video' && (
                                 <ReactPlayer

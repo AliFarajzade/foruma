@@ -33,7 +33,7 @@ const LatestPostCard: React.FC<IProps> = ({ post }) => {
                 handleSelectPost(post)
             }}
         >
-            <Text fontSize="1.1rem" fontWeight={700} mb={1}>
+            <Text fontSize=".99rem" fontWeight={700} mb={1}>
                 {post.title}
             </Text>
             <Flex align="center" gap={2}>
@@ -45,7 +45,7 @@ const LatestPostCard: React.FC<IProps> = ({ post }) => {
                         height="25px"
                     />
                 )}
-                <Text fontSize=".9rem">By u/{post.creatorDisplayName}</Text>
+                <Text fontSize=".8rem">By u/{post.creatorDisplayName}</Text>
             </Flex>
         </Flex>
     )
