@@ -9,7 +9,7 @@
 [Foruma](https://foruma.vercel.app/) is THE professional, full-featured and
 high performance forum website based on Firebase!
 
-[![Foruma](http://www.upsara.com/images/t947953_.png)](https://foruma.vercel.app/)
+[![Foruma](https://gcdnb.pbrd.co/images/OAnFOo2WYgco.png?o=1)](https://foruma.vercel.app/)
 
 ## Technologies that was used to build this app:
 
