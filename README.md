@@ -50,4 +50,4 @@ yarn start [PORT=3000]
 
 ## Links
 
--   [Web site](https://vercel.com/alifarajzade/foruma)
+-   [Web site](https://foruma.vercel.app)
