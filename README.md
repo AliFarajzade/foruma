@@ -1,5 +1,5 @@
-<a href="https://aimeos.org/">
-    <img src="http://www.upsara.com/images/k387768_.png" alt="Foruma logo" title="Foruma" align="right" height="60" />
+<a href="https://foruma.vercel.app">
+    <img src="https://github.com/AliFarajzade/foruma/blob/master/public/images/foruma-f.png?raw=true" alt="Foruma logo" title="Foruma" align="right" height="60" />
 </a>
 
 # Foruma, A forum website built with NextJs and TypeScript.
